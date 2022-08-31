@@ -1,5 +1,6 @@
 #include "Client.h"
 #include <iostream>
+#include <iomanip>
 
 
 Client::Client(int id, string name, string phoneNumber, string address)
@@ -44,8 +45,14 @@ void Client::SetCltAddress(string& address)
 
 void Client::ShowCltInfo() const
 {
-	cout << "고객ID: " << cltID << endl;
+	cout << std::setw(5) << left << cltID;
+	cout << std::setw(10) << left << cltName;
+	cout << std::setw(20) << left << cltPhoneNumber;
+	cout << std::setw(30) << left << cltAddress << endl;
+
+
+	/*cout << "고객ID: " << cltID << endl;
 	cout << "이  름: " << cltName << endl;
 	cout << "전화번호: " << cltPhoneNumber << endl;
-	cout << "주  소: " << cltAddress << endl;
+	cout << "주  소: " << cltAddress << endl;*/
 }

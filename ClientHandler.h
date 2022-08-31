@@ -16,13 +16,14 @@ public:
 	void SearchCltUsingNameMenu();
 	void ModifyClientMenu(Client*);
 	void ClientDeleteModifyMenu(Client*);
+	void ShowAllCltInfoMenu();
 
 	void DeleteCltUsingPtr(Client*);
 	Client* SearchCltUsingId(int id) const;
 	vector<Client*> SearchCltUsingName(string name) const;
 	void ShowSearchResult(Client*) const;
 	void ShowSearchResults(vector<Client*>) const;
-	void ShowAllAccInfo() const;
+	void ShowAllCltInfo() const;
 
 	int MakeId();
 

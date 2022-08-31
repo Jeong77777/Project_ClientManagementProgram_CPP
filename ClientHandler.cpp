@@ -17,6 +17,7 @@ void ClientHandler::ShowMenu() const
 
 void ClientHandler::AddClientMenu()
 {
+	int sel;
 	string name;
 	string phoneNumber;
 	string address;
@@ -33,8 +34,18 @@ void ClientHandler::AddClientMenu()
 	clientList.insert({ id, newClient });
 	cout << "\n신규 고객 등록 완료!" << endl;
 	cout << "고객번호는 " << id << "입니다.\n" << endl;
-	cout << "메뉴로 돌아가려면 아무키나 입력하세요: " << endl;
-	system("pause");
+
+	cout << "메뉴로 돌아가기 (0): ";
+	cin >> sel;
+	while (sel != 0)
+	{
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		cin >> sel;
+	}
+
 	system("cls");
 }
 
@@ -52,33 +63,60 @@ void ClientHandler::SearchClientMenu()
 
 
 	cout << "메뉴를 선택하세요: ";	cin >> sel;
+	while (sel < 1 || sel > 4)
+	{
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		cout << "다시 입력하세요: ";
+		cin >> sel;
+	}
 	if (sel == 1)
 		SearchCltUsingIdMenu();
 	else if (sel == 2)
 		SearchCltUsingNameMenu();
 	else if (sel == 3)
-		ShowAllAccInfo();
+		ShowAllCltInfoMenu();
 	else if (sel == 4)
 	{
 		system("cls");
 	}
-	else
-		cout << "잘못된 입력입니다." << endl;
 }
 
 void ClientHandler::SearchCltUsingIdMenu()
 {
-	int id;
+	int id, sel;
 	Client* client;
 	cout << "고객ID를 입력하세요: ";
 	cin >> id;
+	while (id < 0 || id > INT_MAX)
+	{
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		cout << "올바른 숫자를 입력하세요: ";
+		cin >> id;
+	}
 	client = SearchCltUsingId(id);
 	ShowSearchResult(client);
 
 	if (client != nullptr)
 		ClientDeleteModifyMenu(client);
 	else
-		system("pause");
+	{
+		cout << "메뉴로 돌아가기 (0): ";
+		cin >> sel;
+		while (sel != 0)
+		{
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			cin >> sel;
+		}
+	}	
 
 	system("cls");
 }
@@ -87,10 +125,18 @@ void ClientHandler::ClientDeleteModifyMenu(Client* client)
 {
 	int sel;
 	cout << LINE80 << endl;
-	cout << "1. 삭제\t\t2. 변경" << endl;
+	cout << "1. 삭제\t\t2. 변경\t\t3. 나가기" << endl;
 	cout << LINE80 << endl;
-	cout << "메뉴를 선택하세요: ";
-	cin >> sel;
+	cout << "메뉴를 선택하세요: "; 	cin >> sel;
+	while (sel < 1 || sel > 3)
+	{
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		cout << "다시 입력하세요: ";
+		cin >> sel;
+	}
 
 	if (sel == 1)
 	{
@@ -101,16 +147,29 @@ void ClientHandler::ClientDeleteModifyMenu(Client* client)
 		ModifyClientMenu(client);
 	}
 	else
-		cout << "잘못된 입력입니다. " << endl;
+	{
+		system("cls");
+	}
 }
 
 void ClientHandler::ModifyClientMenu(Client* client)
 {
 	int sel;
 	cout << LINE80 << endl;
-	cout << "1. 이름\t\t2. 전화번호\t\t3.주소" << endl;
+	cout << "1. 이름\t\t2. 전화번호\t\t3. 주소\t\t4. 나가기" << endl;
 	cout << LINE80 << endl;
 	cout << "변경할 항목을 선택하세요: ";	cin >> sel;
+
+	while (sel < 1 || sel > 4)
+	{
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+		}
+		cout << "다시 입력하세요: ";
+		cin >> sel;
+	}
+
 	cout << LINE80 << endl;
 	if (sel == 1)
 	{
@@ -134,7 +193,7 @@ void ClientHandler::ModifyClientMenu(Client* client)
 		client->SetCltAddress(address);
 	}
 	else
-		cout << "잘못된 입력입니다." << endl;
+		system("cls");
 }
 
 
@@ -147,20 +206,45 @@ void ClientHandler::SearchCltUsingNameMenu()
 	searchResults = SearchCltUsingName(name);
 	ShowSearchResults(searchResults);
 
+	unsigned int sel;
 	if (searchResults.size() != 0)
-	{
-		unsigned int sel;
-		cout << "삭제 또는 변경할 항목을 선택하세요: # ";
+	{		
+		cout << "삭제 또는 변경할 항목을 선택하세요(나가기 0): # ";
 		cin >> sel;
-		if (sel >= 1 && sel <= searchResults.size())
-			ClientDeleteModifyMenu(searchResults[sel-1]);
+		while (sel < 0 || sel > searchResults.size())
+		{
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			cout << "다시 입력하세요: ";
+			cin >> sel;
+			
+		}
+
+		if (sel == 0)
+		{
+			system("cls");
+		}			
 		else
-			cout << "잘못된 입력입니다." << endl;		
+		{
+			ClientDeleteModifyMenu(searchResults[sel - 1]);
+		}			
 	}
 	else
-		system("pause");
-
-	system("cls");
+	{
+		cout << "메뉴로 돌아가기 (0): ";
+		cin >> sel;
+		while (sel != 0)
+		{
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			cin >> sel;
+		}
+		system("cls");
+	}
 }
 
 
@@ -171,11 +255,44 @@ void ClientHandler::DeleteCltUsingPtr(Client* client)
 	clientList.erase(id);
 }
 
-void ClientHandler::ShowAllAccInfo() const
+void ClientHandler::ShowAllCltInfoMenu()
 {
+	system("cls");
+	cout << LINE80 << endl;
+	cout << "\t\t\t\t전체 고객 조회" << endl;
+	cout << LINE80 << endl;
+	ShowAllCltInfo();
+
+	/*if (searchResults.size() != 0)
+	{
+		unsigned int sel;
+		cout << "삭제 또는 변경할 항목을 선택하세요: # ";
+		cin >> sel;
+		while (sel < 1 || sel > searchResults.size())
+		{
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			cout << "다시 입력하세요: ";
+			cin >> sel;
+		}
+
+		ClientDeleteModifyMenu(searchResults[sel - 1]);
+	}*/
+	
+}
+
+void ClientHandler::ShowAllCltInfo() const
+{
+	int cnt = 1;
+	cout << '\n';
 	for (auto i = clientList.begin(); i != clientList.end(); i++)
 	{
+		cout << "# " << cnt << endl;
 		i->second->ShowCltInfo();
+		cout << '\n';
+		cnt++;
 	}
 	cout << "\n>> 총 " << clientList.size() << "명의 고객\n" << endl;
 }
@@ -240,7 +357,7 @@ void ClientHandler::ShowSearchResults(vector<Client*> searchResults) const
 		idx++;
 	}
 	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
-	cout << LINE80 << '\n' << endl;
+	cout << LINE80 << endl;
 }
 
 int ClientHandler::MakeId()

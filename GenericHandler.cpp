@@ -21,6 +21,15 @@ void GenericHandler::CltMenu()
 		int sel;
 		cltManager.ShowMenu();
 		cout << "메뉴를 선택하세요: ";	cin >> sel;
+		while (sel < 1 || sel > 3)
+		{
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			cout << "다시 입력하세요: ";
+			cin >> sel;
+		}
 
 		if (sel == 1)	// 신규고객등록
 		{
@@ -32,12 +41,10 @@ void GenericHandler::CltMenu()
 			system("cls");
 			cltManager.SearchClientMenu();
 		}			
-		else if (sel == 3)	// 처음으로
+		else				// 처음으로
 		{
 			system("cls");
 			break;
 		}
-		else
-			cout << "잘못 입력하셨습니다." << endl;
 	}
 }

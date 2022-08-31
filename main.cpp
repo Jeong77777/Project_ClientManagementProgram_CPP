@@ -15,6 +15,16 @@ int main()
 		cout << "메뉴를 선택하세요: ";
 		cin >> choice;
 
+		while (choice < 1 || choice > 4)
+		{
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+			}
+			cout << "다시 입력하세요: ";
+			cin >> choice;
+		}
+
 		switch (choice)
 		{
 		case 1:
@@ -28,13 +38,9 @@ int main()
 			//genManager.SalesMenu();
 			break;
 		case 4:	//exit
-			return 0;
-		default:
-			cout << "잘못 입력하셨습니다." << endl;
+			return 0;			
 		}
 	}
-
-
 
 	return 0;
 }
