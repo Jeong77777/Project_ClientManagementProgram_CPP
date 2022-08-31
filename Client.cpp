@@ -2,8 +2,8 @@
 #include <iostream>
 
 
-Client::Client(int id, string name, string phoneNumber, string address, string email)
-	: cltID(id), cltName(name), cltPhoneNumber(phoneNumber), cltAddress(address), cltEmail(email)
+Client::Client(int id, string name, string phoneNumber, string address)
+	: cltID(id), cltName(name), cltPhoneNumber(phoneNumber), cltAddress(address)
 {
 }
 
@@ -42,20 +42,10 @@ void Client::SetCltAddress(string& address)
 	cltAddress = address;
 }
 
-string Client::GetCltEmail() const
-{
-	return cltEmail;
-}
-
-void Client::SetCltEmail(string& email)
-{
-	cltEmail = email;
-}
-
 void Client::ShowCltInfo() const
 {
 	cout << "고객ID: " << cltID << endl;
-	cout << "이름: " << cltName << endl;
+	cout << "이  름: " << cltName << endl;
 	cout << "전화번호: " << cltPhoneNumber << endl;
-	cout << "주소: " << cltEmail << endl;
+	cout << "주  소: " << cltAddress << endl;
 }

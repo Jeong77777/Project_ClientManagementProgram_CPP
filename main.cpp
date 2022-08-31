@@ -11,14 +11,14 @@ int main()
 
 	while (1)
 	{
-		system("cls");
 		genManager.ShowMenu();
-		cout << "선택: ";
+		cout << "메뉴를 선택하세요: ";
 		cin >> choice;
 
 		switch (choice)
 		{
 		case 1:
+			system("cls");
 			genManager.CltMenu();
 			break;
 		case 2:

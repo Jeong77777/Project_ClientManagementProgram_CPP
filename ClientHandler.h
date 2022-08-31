@@ -10,14 +10,19 @@ class ClientHandler
 {
 public:
 	void ShowMenu() const;
-	void AddClient();
-	void DeleteClient(int id);
-	void ShowAllAccInfo() const;
+	void AddClientMenu();
+	void SearchClientMenu();
+	void SearchCltUsingIdMenu();
+	void SearchCltUsingNameMenu();
+	void ModifyClientMenu(Client*);
+	void ClientDeleteModifyMenu(Client*);
 
-	void SearchClient() const;
-	vector<Client*> SearchUsingId() const;
-	vector<Client*> SearchUsingName() const;
-	void ShowSearchResult(vector<Client*>) const;
+	void DeleteCltUsingPtr(Client*);
+	Client* SearchCltUsingId(int id) const;
+	vector<Client*> SearchCltUsingName(string name) const;
+	void ShowSearchResult(Client*) const;
+	void ShowSearchResults(vector<Client*>) const;
+	void ShowAllAccInfo() const;
 
 	int MakeId();
 

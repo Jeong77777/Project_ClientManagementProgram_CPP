@@ -18,6 +18,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientHandler.cpp" />
+    <ClCompile Include="GenericHandler.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Product.cpp" />
+    <ClCompile Include="SalesHistory.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="ClientHandler.h" />
+    <ClInclude Include="GenericHandler.h" />
+    <ClInclude Include="Line.h" />
+    <ClInclude Include="Product.h" />
+    <ClInclude Include="SalesHistory.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,21 +154,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="ClientHandler.cpp" />
-    <ClCompile Include="GenericHandler.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Product.cpp" />
-    <ClCompile Include="SalesHistory.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Client.h" />
-    <ClInclude Include="ClientHandler.h" />
-    <ClInclude Include="GenericHandler.h" />
-    <ClInclude Include="Product.h" />
-    <ClInclude Include="SalesHistory.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
