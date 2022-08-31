@@ -45,10 +45,10 @@ void Client::SetCltAddress(string& address)
 
 void Client::ShowCltInfo() const
 {
-	cout << std::setw(5) << left << cltID;
-	cout << std::setw(10) << left << cltName;
-	cout << std::setw(20) << left << cltPhoneNumber;
-	cout << std::setw(30) << left << cltAddress << endl;
+	cout << setw(8) << left << cltID;
+	cout << setw(10) << left << cltName;
+	cout << setw(20) << left << cltPhoneNumber;
+	cout << setw(30) << left << cltAddress << endl;
 
 
 	/*cout << "°í°´ID: " << cltID << endl;

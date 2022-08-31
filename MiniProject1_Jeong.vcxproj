@@ -22,6 +22,7 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientHandler.cpp" />
     <ClCompile Include="GenericHandler.cpp" />
+    <ClCompile Include="GetInteger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Product.cpp" />
     <ClCompile Include="SalesHistory.cpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientHandler.h" />
     <ClInclude Include="GenericHandler.h" />
+    <ClInclude Include="GetInteger.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="SalesHistory.h" />

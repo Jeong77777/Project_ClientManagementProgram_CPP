@@ -1,7 +1,10 @@
 #include "ClientHandler.h"
 #include "Line.h"
+#include "GetInteger.h"
 #include <Windows.h>
 #include <iostream>
+#include <iomanip>
+#include <string>
 
 
 void ClientHandler::ShowMenu() const
@@ -62,16 +65,8 @@ void ClientHandler::SearchClientMenu()
 	cout << LINE80 << endl;
 
 
-	cout << "메뉴를 선택하세요: ";	cin >> sel;
-	while (sel < 1 || sel > 4)
-	{
-		if (cin.fail()) {
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
-		}
-		cout << "다시 입력하세요: ";
-		cin >> sel;
-	}
+	cout << "메뉴를 선택하세요: ";
+	sel = GetInt::GetIntger(1, 4);
 	if (sel == 1)
 		SearchCltUsingIdMenu();
 	else if (sel == 2)
@@ -86,19 +81,10 @@ void ClientHandler::SearchClientMenu()
 
 void ClientHandler::SearchCltUsingIdMenu()
 {
-	int id, sel;
+	int id;
 	Client* client;
 	cout << "고객ID를 입력하세요: ";
-	cin >> id;
-	while (id < 0 || id > INT_MAX)
-	{
-		if (cin.fail()) {
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
-		}
-		cout << "올바른 숫자를 입력하세요: ";
-		cin >> id;
-	}
+	id = GetInt::GetIntger();
 	client = SearchCltUsingId(id);
 	ShowSearchResult(client);
 
@@ -107,15 +93,7 @@ void ClientHandler::SearchCltUsingIdMenu()
 	else
 	{
 		cout << "메뉴로 돌아가기 (0): ";
-		cin >> sel;
-		while (sel != 0)
-		{
-			if (cin.fail()) {
-				cin.clear();
-				cin.ignore(INT_MAX, '\n');
-			}
-			cin >> sel;
-		}
+		GetInt::GetOnlyZero();
 	}	
 
 	system("cls");
@@ -127,20 +105,16 @@ void ClientHandler::ClientDeleteModifyMenu(Client* client)
 	cout << LINE80 << endl;
 	cout << "1. 삭제\t\t2. 변경\t\t3. 나가기" << endl;
 	cout << LINE80 << endl;
-	cout << "메뉴를 선택하세요: "; 	cin >> sel;
-	while (sel < 1 || sel > 3)
-	{
-		if (cin.fail()) {
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
-		}
-		cout << "다시 입력하세요: ";
-		cin >> sel;
-	}
+	cout << "메뉴를 선택하세요: ";
+	sel = GetInt::GetIntger(1, 3);
 
 	if (sel == 1)
 	{
 		DeleteCltUsingPtr(client);
+		cout << "삭제 완료!" << endl;
+		cout << "메뉴로 돌아가기 (0): ";
+		GetInt::GetOnlyZero();
+		system("cls");
 	}
 	else if (sel == 2)
 	{
@@ -158,17 +132,8 @@ void ClientHandler::ModifyClientMenu(Client* client)
 	cout << LINE80 << endl;
 	cout << "1. 이름\t\t2. 전화번호\t\t3. 주소\t\t4. 나가기" << endl;
 	cout << LINE80 << endl;
-	cout << "변경할 항목을 선택하세요: ";	cin >> sel;
-
-	while (sel < 1 || sel > 4)
-	{
-		if (cin.fail()) {
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
-		}
-		cout << "다시 입력하세요: ";
-		cin >> sel;
-	}
+	cout << "변경할 항목을 선택하세요: ";
+	sel = GetInt::GetIntger(1, 4);
 
 	cout << LINE80 << endl;
 	if (sel == 1)
@@ -206,22 +171,11 @@ void ClientHandler::SearchCltUsingNameMenu()
 	searchResults = SearchCltUsingName(name);
 	ShowSearchResults(searchResults);
 
-	unsigned int sel;
+	int sel;
 	if (searchResults.size() != 0)
 	{		
 		cout << "삭제 또는 변경할 항목을 선택하세요(나가기 0): # ";
-		cin >> sel;
-		while (sel < 0 || sel > searchResults.size())
-		{
-			if (cin.fail()) {
-				cin.clear();
-				cin.ignore(INT_MAX, '\n');
-			}
-			cout << "다시 입력하세요: ";
-			cin >> sel;
-			
-		}
-
+		sel = GetInt::GetIntger(0, searchResults.size());
 		if (sel == 0)
 		{
 			system("cls");
@@ -234,15 +188,7 @@ void ClientHandler::SearchCltUsingNameMenu()
 	else
 	{
 		cout << "메뉴로 돌아가기 (0): ";
-		cin >> sel;
-		while (sel != 0)
-		{
-			if (cin.fail()) {
-				cin.clear();
-				cin.ignore(INT_MAX, '\n');
-			}
-			cin >> sel;
-		}
+		GetInt::GetOnlyZero();
 		system("cls");
 	}
 }
@@ -258,38 +204,47 @@ void ClientHandler::DeleteCltUsingPtr(Client* client)
 void ClientHandler::ShowAllCltInfoMenu()
 {
 	system("cls");
+
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t전체 고객 조회" << endl;
 	cout << LINE80 << endl;
+	cout << setw(5) << left << "번호";
+	cout << setw(8) << left << "고객ID";
+	cout << setw(10) << left << "이름";
+	cout << setw(20) << left << "전화번호";
+	cout << setw(30) << left << "주소" << endl;
+	cout << LINE80 << endl;
 	ShowAllCltInfo();
+	cout << LINE80 << endl;
 
-	/*if (searchResults.size() != 0)
+	int sel;
+	if (clientList.size() != 0)
 	{
-		unsigned int sel;
-		cout << "삭제 또는 변경할 항목을 선택하세요: # ";
-		cin >> sel;
-		while (sel < 1 || sel > searchResults.size())
+		cout << "삭제 또는 변경할 항목을 선택하세요(나가기 0): # ";
+		sel = GetInt::GetIntger(0, clientList.size());
+		if (sel == 0)
 		{
-			if (cin.fail()) {
-				cin.clear();
-				cin.ignore(INT_MAX, '\n');
-			}
-			cout << "다시 입력하세요: ";
-			cin >> sel;
-		}
-
-		ClientDeleteModifyMenu(searchResults[sel - 1]);
-	}*/
-	
+			system("cls");
+		}			
+		else
+		{
+			ClientDeleteModifyMenu(clientList.begin() + sel - 1);
+		}		
+	}
+	else
+	{
+		cout << "메뉴로 돌아가기 (0): ";
+		GetInt::GetOnlyZero();
+		system("cls");
+	}	
 }
 
 void ClientHandler::ShowAllCltInfo() const
 {
 	int cnt = 1;
-	cout << '\n';
 	for (auto i = clientList.begin(); i != clientList.end(); i++)
 	{
-		cout << "# " << cnt << endl;
+		cout << setw(5) << left << "# " + to_string(cnt);
 		i->second->ShowCltInfo();
 		cout << '\n';
 		cnt++;
@@ -331,7 +286,12 @@ void ClientHandler::ShowSearchResult(Client* client) const
 	system("cls");
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t검색 결과" << endl;
-	cout << LINE80 << '\n' << endl;
+	cout << LINE80 << endl;
+	cout << std::setw(8) << left << "고객ID";
+	cout << std::setw(10) << left << "이름";
+	cout << std::setw(20) << left << "전화번호";
+	cout << std::setw(30) << left << "주소" << endl;
+	cout << LINE80 << endl;
 	if (client != nullptr)
 	{
 		client->ShowCltInfo();
@@ -345,16 +305,22 @@ void ClientHandler::ShowSearchResult(Client* client) const
 
 void ClientHandler::ShowSearchResults(vector<Client*> searchResults) const
 {
-	int idx = 1;
+	int cnt = 1;
 	system("cls");
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t검색 결과" << endl;
-	cout << LINE80 << '\n' << endl;
+	cout << LINE80 << endl;
+	cout << setw(5) << left << "번호";
+	cout << setw(8) << left << "고객ID";
+	cout << setw(10) << left << "이름";
+	cout << setw(20) << left << "전화번호";
+	cout << setw(30) << left << "주소" << endl;
+	cout << LINE80 << endl;
 	for (auto i = searchResults.begin(); i != searchResults.end(); i++) {
-		cout << "# " << idx << endl;
+		cout << setw(5) << left << "# " + to_string(cnt);
 		(*i)->ShowCltInfo();
 		cout << '\n';
-		idx++;
+		cnt++;
 	}
 	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
 	cout << LINE80 << endl;
