@@ -1,5 +1,6 @@
 #include "GenericHandler.h"
 #include "Line.h"
+#include "GetInteger.h"
 
 
 void GenericHandler::ShowMenu() const
@@ -20,16 +21,8 @@ void GenericHandler::CltMenu()
 	{		
 		int sel;
 		cltManager.ShowMenu();
-		cout << "메뉴를 선택하세요: ";	cin >> sel;
-		while (sel < 1 || sel > 3)
-		{
-			if (cin.fail()) {
-				cin.clear();
-				cin.ignore(INT_MAX, '\n');
-			}
-			cout << "다시 입력하세요: ";
-			cin >> sel;
-		}
+		cout << "메뉴를 선택하세요: ";
+		sel = GetInt::GetIntger(1, 3);
 
 		if (sel == 1)	// 신규고객등록
 		{

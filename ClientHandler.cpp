@@ -9,6 +9,7 @@
 
 void ClientHandler::ShowMenu() const
 {
+	/*** 고객 정보 관리 메뉴 출력 ***/
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t고객 정보 관리" << endl;
 	cout << LINE80 << endl;
@@ -20,11 +21,13 @@ void ClientHandler::ShowMenu() const
 
 void ClientHandler::AddClientMenu()
 {
-	int sel;
+	/*** 신규 고객 등록 메뉴 ***/
 	string name;
 	string phoneNumber;
 	string address;
 
+	/*** 신규 고객 등록 메뉴 출력 ***/
+	/*** 신규 고객 정보 입력 받기 ***/
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t신규 고객 등록" << endl;
 	cout << LINE80 << endl;
@@ -32,6 +35,7 @@ void ClientHandler::AddClientMenu()
 	cout << "전화번호: ";	cin >> phoneNumber;
 	cout << "주소: ";		cin.ignore();	getline(cin, address);
 
+	/*** ID 생성 및 신규 고객 등록 ***/
 	int id = MakeId();
 	Client* newClient = new Client(id, name, phoneNumber, address);
 	clientList.insert({ id, newClient });
@@ -39,15 +43,7 @@ void ClientHandler::AddClientMenu()
 	cout << "고객번호는 " << id << "입니다.\n" << endl;
 
 	cout << "메뉴로 돌아가기 (0): ";
-	cin >> sel;
-	while (sel != 0)
-	{
-		if (cin.fail()) {
-			cin.clear();
-			cin.ignore(INT_MAX, '\n');
-		}
-		cin >> sel;
-	}
+	GetInt::GetOnlyZero();
 
 	system("cls");
 }
@@ -55,6 +51,8 @@ void ClientHandler::AddClientMenu()
 void ClientHandler::SearchClientMenu()
 {
 	int sel;
+
+	/*** 고객 조회 메뉴 출력 ***/
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t고객 조회(삭제, 변경)" << endl;
 	cout << LINE80 << endl;
@@ -64,9 +62,10 @@ void ClientHandler::SearchClientMenu()
 	cout << "\t\t\t\t4.  이전 메뉴" << endl;
 	cout << LINE80 << endl;
 
-
+	/*** 고객 조회 메뉴 선택 ***/
 	cout << "메뉴를 선택하세요: ";
 	sel = GetInt::GetIntger(1, 4);
+
 	if (sel == 1)
 		SearchCltUsingIdMenu();
 	else if (sel == 2)
@@ -74,13 +73,12 @@ void ClientHandler::SearchClientMenu()
 	else if (sel == 3)
 		ShowAllCltInfoMenu();
 	else if (sel == 4)
-	{
 		system("cls");
-	}
 }
 
 void ClientHandler::SearchCltUsingIdMenu()
 {
+	/*** 고객ID로 검색 ***/
 	int id;
 	Client* client;
 	cout << "고객ID를 입력하세요: ";
@@ -88,19 +86,20 @@ void ClientHandler::SearchCltUsingIdMenu()
 	client = SearchCltUsingId(id);
 	ShowSearchResult(client);
 
+	/*** 삭제/변경 메뉴 ***/
 	if (client != nullptr)
 		ClientDeleteModifyMenu(client);
-	else
-	{
+	else {
 		cout << "메뉴로 돌아가기 (0): ";
 		GetInt::GetOnlyZero();
-	}	
+	}
 
 	system("cls");
 }
 
 void ClientHandler::ClientDeleteModifyMenu(Client* client)
 {
+	/*** 삭제/변경 메뉴 ***/
 	int sel;
 	cout << LINE80 << endl;
 	cout << "1. 삭제\t\t2. 변경\t\t3. 나가기" << endl;
@@ -108,26 +107,21 @@ void ClientHandler::ClientDeleteModifyMenu(Client* client)
 	cout << "메뉴를 선택하세요: ";
 	sel = GetInt::GetIntger(1, 3);
 
-	if (sel == 1)
-	{
+	if (sel == 1) {
 		DeleteCltUsingPtr(client);
-		cout << "삭제 완료!" << endl;
+		cout << "삭제 완료!\n" << endl;
 		cout << "메뉴로 돌아가기 (0): ";
 		GetInt::GetOnlyZero();
-		system("cls");
 	}
-	else if (sel == 2)
-	{
+	else if (sel == 2) {
 		ModifyClientMenu(client);
 	}
-	else
-	{
-		system("cls");
-	}
+	else;
 }
 
 void ClientHandler::ModifyClientMenu(Client* client)
 {
+	/*** 고객 변경 메뉴 ***/
 	int sel;
 	cout << LINE80 << endl;
 	cout << "1. 이름\t\t2. 전화번호\t\t3. 주소\t\t4. 나가기" << endl;
@@ -136,66 +130,56 @@ void ClientHandler::ModifyClientMenu(Client* client)
 	sel = GetInt::GetIntger(1, 4);
 
 	cout << LINE80 << endl;
-	if (sel == 1)
-	{
+	if (sel == 1) {
 		string name;
 		cout << "이름을 입력하세요: ";
 		cin >> name;
 		client->SetCltName(name);
-	}
-	else if (sel == 2)
-	{
+	} 
+	else if (sel == 2) {
 		string phone;
 		cout << "전화번호를 입력하세요: ";
 		cin >> phone;
 		client->SetCltPhoneNumber(phone);
-	}
-	else if (sel == 3)
-	{
+	} 
+	else if (sel == 3) {
 		string address;
 		cout << "주소를 입력하세요: ";
 		cin >> address;
 		client->SetCltAddress(address);
 	}
-	else
+	else {
 		system("cls");
+		return;
+	}
+	
+	cout << "변경 완료!\n" << endl;
+	cout << "메뉴로 돌아가기 (0): ";
+	GetInt::GetOnlyZero();
 }
 
 
 void ClientHandler::SearchCltUsingNameMenu()
 {
+	/*** 이름으로 조회 메뉴 ***/
 	string name;
 	vector<Client*> searchResults;
+
 	cout << "고객 이름을 입력하세요: "; cin >> name;
 
+	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchCltUsingName(name);
+	/*** 검색 결과 출력 ***/
 	ShowSearchResults(searchResults);
 
-	int sel;
-	if (searchResults.size() != 0)
-	{		
-		cout << "삭제 또는 변경할 항목을 선택하세요(나가기 0): # ";
-		sel = GetInt::GetIntger(0, searchResults.size());
-		if (sel == 0)
-		{
-			system("cls");
-		}			
-		else
-		{
-			ClientDeleteModifyMenu(searchResults[sel - 1]);
-		}			
-	}
-	else
-	{
-		cout << "메뉴로 돌아가기 (0): ";
-		GetInt::GetOnlyZero();
-		system("cls");
-	}
+	/*** 선택 메뉴 진입 ***/
+	SelectInSearchMenu(searchResults);
 }
 
 
 void ClientHandler::DeleteCltUsingPtr(Client* client)
 {
+	/*** 고객 삭제 ***/
 	int id = client->getCltId();
 	delete clientList.at(id);
 	clientList.erase(id);
@@ -203,12 +187,12 @@ void ClientHandler::DeleteCltUsingPtr(Client* client)
 
 void ClientHandler::ShowAllCltInfoMenu()
 {
+	/*** 전체 고객 조회 메뉴 ***/
 	system("cls");
-
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t전체 고객 조회" << endl;
 	cout << LINE80 << endl;
-	cout << setw(5) << left << "번호";
+	cout << setw(10) << left << "번호";
 	cout << setw(8) << left << "고객ID";
 	cout << setw(10) << left << "이름";
 	cout << setw(20) << left << "전화번호";
@@ -217,34 +201,41 @@ void ClientHandler::ShowAllCltInfoMenu()
 	ShowAllCltInfo();
 	cout << LINE80 << endl;
 
+	/*** 전체 고객 가져오기 ***/
+	vector<Client*> allClients;
+	for (auto i = clientList.begin(); i != clientList.end(); i++)
+		allClients.push_back(i->second);
+
+	/*** 선택 메뉴 진입 ***/
+	SelectInSearchMenu(allClients);
+}
+
+void ClientHandler::SelectInSearchMenu(vector<Client*>& list)
+{
+	/*** 검색 목록에서 선택하기 ***/
 	int sel;
-	if (clientList.size() != 0)
-	{
+	if (list.size() != 0) {
 		cout << "삭제 또는 변경할 항목을 선택하세요(나가기 0): # ";
-		sel = GetInt::GetIntger(0, clientList.size());
-		if (sel == 0)
-		{
-			system("cls");
-		}			
-		else
-		{
-			ClientDeleteModifyMenu(clientList.begin() + sel - 1);
-		}		
+		sel = GetInt::GetIntger(0, list.size());
+		if (sel != 0)
+			/*** 삭제/변경 메뉴 진입 ***/
+			ClientDeleteModifyMenu(list[sel - 1]);			
 	}
-	else
-	{
+	else {
 		cout << "메뉴로 돌아가기 (0): ";
 		GetInt::GetOnlyZero();
-		system("cls");
-	}	
+	}
+	system("cls");
 }
 
 void ClientHandler::ShowAllCltInfo() const
 {
+	/*** 전체 고객 출력 ***/
 	int cnt = 1;
-	for (auto i = clientList.begin(); i != clientList.end(); i++)
-	{
-		cout << setw(5) << left << "# " + to_string(cnt);
+	for (auto i = clientList.begin(); i != clientList.end(); i++) {
+		cout << setw(2) << left << "# ";
+		cout << setw(4) << right << cnt;
+		cout << "    ";
 		i->second->ShowCltInfo();
 		cout << '\n';
 		cnt++;
@@ -252,28 +243,23 @@ void ClientHandler::ShowAllCltInfo() const
 	cout << "\n>> 총 " << clientList.size() << "명의 고객\n" << endl;
 }
 
-
-
 Client* ClientHandler::SearchCltUsingId(int id) const
 {
+	/*** 고객ID로 검색 ***/
 	auto i = clientList.find(id);
 
 	if (i != clientList.end())
-	{
 		return i->second;
-	}
 	else
-	{		
 		return nullptr;
-	}	
 }
 
 vector<Client*> ClientHandler::SearchCltUsingName(string name) const
 {
+	/*** 이름으로 검색 ***/
 	vector<Client*> searchResults;	
 
-	for (auto i = clientList.begin(); i != clientList.end(); i++)
-	{
+	for (auto i = clientList.begin(); i != clientList.end(); i++) {
 		if (name == i->second->GetCltName())
 			searchResults.push_back(i->second);
 	}
@@ -283,6 +269,7 @@ vector<Client*> ClientHandler::SearchCltUsingName(string name) const
 
 void ClientHandler::ShowSearchResult(Client* client) const
 {
+	/*** ID로 검색한 결과 출력 ***/
 	system("cls");
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t검색 결과" << endl;
@@ -292,32 +279,34 @@ void ClientHandler::ShowSearchResult(Client* client) const
 	cout << std::setw(20) << left << "전화번호";
 	cout << std::setw(30) << left << "주소" << endl;
 	cout << LINE80 << endl;
-	if (client != nullptr)
-	{
+
+	if (client != nullptr) {
 		client->ShowCltInfo();
 		cout << endl;
 	}		
-	else
-	{
-		cout << "존재하지 않는 고객ID입니다.\n" << endl;
+	else {
+		cout << "\n존재하지 않는 고객ID입니다.\n" << endl;
 	}	
 }
 
-void ClientHandler::ShowSearchResults(vector<Client*> searchResults) const
+void ClientHandler::ShowSearchResults(vector<Client*>& searchResults) const
 {
+	/*** 이름으로 검색한 결과들 출력 ***/
 	int cnt = 1;
 	system("cls");
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t검색 결과" << endl;
 	cout << LINE80 << endl;
-	cout << setw(5) << left << "번호";
+	cout << setw(10) << left << "번호";
 	cout << setw(8) << left << "고객ID";
 	cout << setw(10) << left << "이름";
 	cout << setw(20) << left << "전화번호";
 	cout << setw(30) << left << "주소" << endl;
 	cout << LINE80 << endl;
 	for (auto i = searchResults.begin(); i != searchResults.end(); i++) {
-		cout << setw(5) << left << "# " + to_string(cnt);
+		cout << setw(2) << left << "# ";
+		cout << setw(4) << right << cnt;
+		cout << "    ";
 		(*i)->ShowCltInfo();
 		cout << '\n';
 		cnt++;
@@ -328,6 +317,7 @@ void ClientHandler::ShowSearchResults(vector<Client*> searchResults) const
 
 int ClientHandler::MakeId()
 {
+	/*** 중복되지 않는 ID 생성 ***/
 	auto key = clientList.end();
 	if (clientList.size() == 0)
 	{
