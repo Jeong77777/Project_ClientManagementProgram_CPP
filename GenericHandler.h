@@ -8,7 +8,7 @@
 class GenericHandler
 {
 public:
-	void ShowMenu() const;
+	void ShowGenMenu() const;
 	void CltMenu();
 	void ProdMenu();
 

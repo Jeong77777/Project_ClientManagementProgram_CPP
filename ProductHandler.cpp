@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <string>
 
-void ProductHandler::ShowMenu() const
+void ProductHandler::ShowProdMenu() const
 {
 	/*** 상품 정보 관리 메뉴 출력 ***/
 	cout << LINE80 << endl;
@@ -22,7 +22,7 @@ void ProductHandler::AddProdMenu()
 {
 	/*** 상품 등록 메뉴 ***/
 	int id;       // 상품ID
-	int classif;  // 상품분류
+	int classif;  // 상품종류
 	string name;  // 상품명
 	int stock;    // 재고수량
 	int price;    // 상품가격
@@ -110,7 +110,7 @@ void ProductHandler::ShowSearchResult(Product* client) const
 	cout << "\t\t\t\t검색 결과" << endl;
 	cout << LINE80 << endl;
 	cout << setw(8) << left << "상품ID";
-	cout << setw(10) << left << "상품분류";
+	cout << setw(10) << left << "상품종류";
 	cout << setw(20) << left << "상품명";
 	cout << setw(10) << left << "재고수량";
 	cout << setw(10) << left << "가격" << endl;
@@ -185,13 +185,13 @@ void ProductHandler::ModifyProdMenu(Product* product)
 		int stock;
 		cout << "재고수량을 입력하세요: ";
 		stock = GetInt::GetIntger();
-		product->SetProdClassif(stock);
+		product->SetProdStock(stock);
 	}
 	else if (sel == 4) {
-		int stock;
+		int price;
 		cout << "가격을 입력하세요: ";
-		stock = GetInt::GetIntger();
-		product->SetProdClassif(stock);
+		price = GetInt::GetIntger();
+		product->SetProdPrice(price);
 	}
 	else
 		return;	
@@ -249,7 +249,7 @@ void ProductHandler::ShowSearchResults(vector<Product*>& searchResults) const
 	cout << LINE80 << endl;
 	cout << setw(10) << left << "번호";
 	cout << setw(8) << left << "상품ID";
-	cout << setw(10) << left << "상품분류";
+	cout << setw(10) << left << "상품종류";
 	cout << setw(20) << left << "상품명";
 	cout << setw(10) << left << "재고수량";
 	cout << setw(10) << left << "가격" << endl;
@@ -324,7 +324,7 @@ void ProductHandler::ShowAllProdInfoMenu()
 	cout << LINE80 << endl;
 	cout << setw(10) << left << "번호";
 	cout << setw(8) << left << "상품ID";
-	cout << setw(10) << left << "상품분류";
+	cout << setw(10) << left << "상품종류";
 	cout << setw(20) << left << "상품명";
 	cout << setw(10) << left << "재고수량";
 	cout << setw(10) << left << "가격" << endl;

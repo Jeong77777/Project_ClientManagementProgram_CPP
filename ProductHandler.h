@@ -8,7 +8,7 @@
 class ProductHandler
 {
 public:
-	void ShowMenu() const;
+	void ShowProdMenu() const;
 	void AddProdMenu();
 	void SearchProdMenu();
 	void SearchProdUsingIdMenu();

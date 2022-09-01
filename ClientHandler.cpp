@@ -7,7 +7,7 @@
 #include <string>
 
 
-void ClientHandler::ShowMenu() const
+void ClientHandler::ShowClientMenu() const
 {
 	/*** 고객 정보 관리 메뉴 출력 ***/
 	cout << LINE80 << endl;
@@ -143,8 +143,7 @@ void ClientHandler::ModifyClientMenu(Client* client)
 	}
 	else if (sel == 3) {
 		string address;
-		cout << "주소를 입력하세요: ";
-		cin >> address;
+		cout << "주소를 입력하세요: ";		cin.ignore();	getline(cin, address);
 		client->SetCltAddress(address);
 	}
 	else

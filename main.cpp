@@ -9,7 +9,7 @@ int main()
 
 	while (1)
 	{
-		genManager.ShowMenu();
+		genManager.ShowGenMenu();
 		cout << "메뉴를 선택하세요: ";
 		choice = GetInt::GetIntger(1, 4);
 

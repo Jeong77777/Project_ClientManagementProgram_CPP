@@ -30,13 +30,16 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Order.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="OrderHandler.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Product.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ProductHandler.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SalesHistory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,13 +59,16 @@
     <ClInclude Include="Line.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Order.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="OrderHandler.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Product.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ProductHandler.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="SalesHistory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

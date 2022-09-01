@@ -9,7 +9,7 @@
 class ClientHandler
 {
 public:
-	void ShowMenu() const;
+	void ShowClientMenu() const;
 	void AddClientMenu();
 	void SearchClientMenu();
 	void SearchCltUsingIdMenu();

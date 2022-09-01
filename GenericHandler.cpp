@@ -3,14 +3,14 @@
 #include "GetInteger.h"
 
 
-void GenericHandler::ShowMenu() const
+void GenericHandler::ShowGenMenu() const
 {
 	cout << LINE80 << endl;
 	cout << "\t\t\t고객 관리 및 상품 관리 프로그램" << endl;
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t1.  고객 정보 관리" << endl;
 	cout << "\t\t\t\t2.  상품 정보 관리" << endl;
-	cout << "\t\t\t\t3.  판매 내역 관리" << endl;
+	cout << "\t\t\t\t3.  주문 내역 관리" << endl;
 	cout << "\t\t\t\t4.  프로그램 종료" << endl;
 	cout << LINE80 << endl;
 }
@@ -20,7 +20,7 @@ void GenericHandler::CltMenu()
 	while (1)
 	{		
 		int sel;
-		cltManager.ShowMenu();
+		cltManager.ShowClientMenu();
 		cout << "메뉴를 선택하세요: ";
 		sel = GetInt::GetIntger(1, 3);
 
@@ -47,7 +47,7 @@ void GenericHandler::ProdMenu()
 	while (1)
 	{
 		int sel;
-		prodManager.ShowMenu();
+		prodManager.ShowProdMenu();
 		cout << "메뉴를 선택하세요: ";
 		sel = GetInt::GetIntger(1, 3);
 

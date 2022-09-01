@@ -24,9 +24,10 @@
     <ClCompile Include="GenericHandler.cpp" />
     <ClCompile Include="GetInteger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Order.cpp" />
+    <ClCompile Include="OrderHandler.cpp" />
     <ClCompile Include="Product.cpp" />
     <ClCompile Include="ProductHandler.cpp" />
-    <ClCompile Include="SalesHistory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h" />
@@ -34,9 +35,10 @@
     <ClInclude Include="GenericHandler.h" />
     <ClInclude Include="GetInteger.h" />
     <ClInclude Include="Line.h" />
+    <ClInclude Include="Order.h" />
+    <ClInclude Include="OrderHandler.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="ProductHandler.h" />
-    <ClInclude Include="SalesHistory.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
