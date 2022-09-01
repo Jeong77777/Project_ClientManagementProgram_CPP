@@ -1,5 +1,3 @@
-// 미완성
-
 #ifndef __PRODUCT_H__
 #define __PRODUCT_H__
 
@@ -8,10 +6,9 @@ using namespace std;
 
 class Product {
 public:
-	Product(int, int, string, int, int);
+	Product(int = 0, int = 0, string = "", int = 0, int = 0);
 
 	int getProdID() const;
-	void setProdID(int&);
 
 	string getProdName() const;
 	void setProdName(string&);
@@ -24,6 +21,8 @@ public:
 
 	int getProdStock() const;
 	void setProdStock(int&);
+
+	void ShowProdInfo() const;
 
 private:
 	int prodID;       // 상품ID

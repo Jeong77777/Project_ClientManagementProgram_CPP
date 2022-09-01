@@ -25,6 +25,7 @@
     <ClCompile Include="GetInteger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Product.cpp" />
+    <ClCompile Include="ProductHandler.cpp" />
     <ClCompile Include="SalesHistory.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +35,7 @@
     <ClInclude Include="GetInteger.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="Product.h" />
+    <ClInclude Include="ProductHandler.h" />
     <ClInclude Include="SalesHistory.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

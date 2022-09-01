@@ -49,10 +49,4 @@ void Client::ShowCltInfo() const
 	cout << setw(10) << left << cltName;
 	cout << setw(20) << left << cltPhoneNumber;
 	cout << setw(30) << left << cltAddress << endl;
-
-
-	/*cout << "고객ID: " << cltID << endl;
-	cout << "이  름: " << cltName << endl;
-	cout << "전화번호: " << cltPhoneNumber << endl;
-	cout << "주  소: " << cltAddress << endl;*/
 }

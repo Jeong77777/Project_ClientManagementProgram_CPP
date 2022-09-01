@@ -1,5 +1,6 @@
-// 미완성
 #include "Product.h"
+#include <iostream>
+#include <iomanip>
 
 
 Product::Product(int id, int classif, string name, int stock, int price)
@@ -10,11 +11,6 @@ Product::Product(int id, int classif, string name, int stock, int price)
 int Product::getProdID() const
 {
     return prodID;
-}
-
-void Product::setProdID(int& id)
-{
-    prodID = id;
 }
 
 string Product::getProdName() const
@@ -55,4 +51,21 @@ int Product::getProdStock() const
 void Product::setProdStock(int& stock)
 {
     prodStock = stock;
+}
+
+void Product::ShowProdInfo() const
+{
+    cout << setw(8) << left << prodID;
+    if (prodClassif == 1) {
+        cout << setw(10) << left << "치과장비";
+    }
+    else if (prodClassif == 2) {
+        cout << setw(10) << left << "치과재료";
+    }
+    else if(prodClassif == 3){
+        cout << setw(10) << left << "위생용품";
+    }
+    cout << setw(20) << left << prodName;
+    cout << setw(10) << left << prodStock;
+    cout << setw(10) << left << prodPrice << endl;
 }

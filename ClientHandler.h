@@ -26,7 +26,7 @@ public:
 	void ShowSearchResults(vector<Client*>&) const;
 	void ShowAllCltInfo() const;
 
-	int MakeId();
+	int MakeClientId();
 
 private:
 	map<int, Client*> clientList;

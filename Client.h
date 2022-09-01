@@ -2,7 +2,6 @@
 #define __CLIENT_H__
 
 #include <string>
-#include <map>
 using namespace std;
 
 class Client

@@ -26,7 +26,6 @@ void ClientHandler::AddClientMenu()
 	string phoneNumber;
 	string address;
 
-	/*** 신규 고객 등록 메뉴 출력 ***/
 	/*** 신규 고객 정보 입력 받기 ***/
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t신규 고객 등록" << endl;
@@ -36,7 +35,7 @@ void ClientHandler::AddClientMenu()
 	cout << "주소: ";		cin.ignore();	getline(cin, address);
 
 	/*** ID 생성 및 신규 고객 등록 ***/
-	int id = MakeId();
+	int id = MakeClientId();
 	Client* newClient = new Client(id, name, phoneNumber, address);
 	clientList.insert({ id, newClient });
 	cout << "\n신규 고객 등록 완료!" << endl;
@@ -274,10 +273,10 @@ void ClientHandler::ShowSearchResult(Client* client) const
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t검색 결과" << endl;
 	cout << LINE80 << endl;
-	cout << std::setw(8) << left << "고객ID";
-	cout << std::setw(10) << left << "이름";
-	cout << std::setw(20) << left << "전화번호";
-	cout << std::setw(30) << left << "주소" << endl;
+	cout << setw(8) << left << "고객ID";
+	cout << setw(10) << left << "이름";
+	cout << setw(20) << left << "전화번호";
+	cout << setw(30) << left << "주소" << endl;
 	cout << LINE80 << endl;
 
 	if (client != nullptr) {
@@ -315,16 +314,14 @@ void ClientHandler::ShowSearchResults(vector<Client*>& searchResults) const
 	cout << LINE80 << endl;
 }
 
-int ClientHandler::MakeId()
+int ClientHandler::MakeClientId()
 {
 	/*** 중복되지 않는 ID 생성 ***/
 	auto key = clientList.end();
-	if (clientList.size() == 0)
-	{
+	if (clientList.size() == 0) {
 		return 1001;
 	}
-	else
-	{
+	else {
 		int id = (--key)->first;
 		return ++id;
 	}
