@@ -10,27 +10,27 @@ class SalesHistory {
 public:
 	SalesHistory(int, int, int, int, int);
 
-	int getSaleDate() const;
-	void setSaleDate(int&);
+	int GetSaleDate() const;
+	void SetSaleDate(int&);
 
-	int getSaleNumber() const;
-	void setSaleNumber(int&);
+	int GetSaleNumber() const;
+	void SetSaleNumber(int&);
 
-	int getSaleCltID() const;
-	void setSaleCltID(int&);
+	int GetSaleCltID() const;
+	void SetSaleCltID(int&);
 
-	int getSaleProdID() const;
-	void setSaleProdID(int&);
+	int GetSaleProdID() const;
+	void SetSaleProdID(int&);
 
-	int getSaleProdPrice() const;
-	void setSaleProdPrice(int&);
+	int GetSaleProdPrice() const;
+	void SetSaleProdPrice(int&);
 
-	int getSaleProdNum() const;
-	void setSaleProdNum(int&);
+	int GetSaleProdNum() const;
+	void SetSaleProdNum(int&);
 
 private:
-	int saleDate;       // 판매일자
 	int saleNumber;		// 주문번호
+	int saleDate;       // 판매일자			
 	int saleCltID;      // 고객ID
 	int saleProdID;     // 상품ID
 	int saleProdPrice;  // 판매가격

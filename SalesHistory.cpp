@@ -1,5 +1,4 @@
-// 미완성
-
+// 미완성 
 #include "SalesHistory.h"
 
 
@@ -9,62 +8,62 @@ SalesHistory::SalesHistory(int data, int cltID, int prodID, int prodPrice, int p
 	saleNumber = 0;
 }
 
-int SalesHistory::getSaleDate() const
+int SalesHistory::GetSaleDate() const
 {
 	return saleDate;
 }
 
-void SalesHistory::setSaleDate(int& date)
+void SalesHistory::SetSaleDate(int& date)
 {
 	saleDate = date;
 }
 
-int SalesHistory::getSaleNumber() const
+int SalesHistory::GetSaleNumber() const
 {
 	return saleNumber;
 }
 
-void SalesHistory::setSaleNumber(int& number)
+void SalesHistory::SetSaleNumber(int& number)
 {
 	saleNumber = number;
 }
 
-int SalesHistory::getSaleCltID() const
+int SalesHistory::GetSaleCltID() const
 {
 	return saleCltID;
 }
 
-void SalesHistory::setSaleCltID(int& cltID)
+void SalesHistory::SetSaleCltID(int& cltID)
 {
 	saleCltID = cltID;
 }
 
-int SalesHistory::getSaleProdID() const
+int SalesHistory::GetSaleProdID() const
 {
 	return saleProdID;
 }
 
-void SalesHistory::setSaleProdID(int& prodID)
+void SalesHistory::SetSaleProdID(int& prodID)
 {
 	saleProdID = prodID;
 }
 
-int SalesHistory::getSaleProdPrice() const
+int SalesHistory::GetSaleProdPrice() const
 {
 	return saleProdPrice;
 }
 
-void SalesHistory::setSaleProdPrice(int& prodPrice)
+void SalesHistory::SetSaleProdPrice(int& prodPrice)
 {
 	saleProdPrice = prodPrice;
 }
 
-int SalesHistory::getSaleProdNum() const
+int SalesHistory::GetSaleProdNum() const
 {
 	return saleProdNum;
 }
 
-void SalesHistory::setSaleProdNum(int& prodNum)
+void SalesHistory::SetSaleProdNum(int& prodNum)
 {
 	saleProdNum = prodNum;
 }

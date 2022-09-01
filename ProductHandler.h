@@ -12,23 +12,25 @@ public:
 	void AddProdMenu();
 	void SearchProdMenu();
 	void SearchProdUsingIdMenu();
-	//void SearchProdUsingNameMenu();
-	//void ModifyProdMenu(Product*);
-	//void SelectInSearchMenu(vector<Product*>&);
-	//void ProdDeleteModifyMenu(Product*);
-	//void ShowAllProdInfoMenu();
+	void ModifyProdMenu(Product*);
+	void SearchProdUsingNameMenu();	
+	void ProdDeleteModifyMenu(Product*);
+	void SelectInSearchMenu(vector<Product*>&);
+	void SearchProdUsingClasMenu();
+	void ShowAllProdInfoMenu();
 
 	Product* SearchProdUsingId(int id) const;
-	//void DeleteProdUsingPtr(Product*);	
-	//vector<Product*> SearchProdUsingName(string) const;
+	void DeleteProdUsingPtr(Product*);	
+	vector<Product*> SearchProdUsingName(string) const;
 	void ShowSearchResult(Product*) const;
-	//void ShowSearchResults(vector<Product*>&) const;
-	//void ShowAllProdInfo() const;
+	void ShowSearchResults(vector<Product*>&) const;
+	vector<Product*> SearchProdUsingClas(int) const;
+	void ShowAllProdInfo() const;
 
 	int MakeProdId();
 
 private:
-	map<int, Product*> ProductList;
+	map<int, Product*> productList;
 
 };
 

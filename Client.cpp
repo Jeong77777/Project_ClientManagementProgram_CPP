@@ -8,7 +8,7 @@ Client::Client(int id, string name, string phoneNumber, string address)
 {
 }
 
-int Client::getCltId() const
+int Client::getCltID() const
 {
 	return cltID;
 }

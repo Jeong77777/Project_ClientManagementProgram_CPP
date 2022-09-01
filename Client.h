@@ -9,7 +9,7 @@ class Client
 public:
 	Client(int = 0, string = "", string = "", string = "");
 
-	int getCltId() const;
+	int getCltID() const;
 
 	string GetCltName() const;
 	void SetCltName(string&);

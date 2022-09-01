@@ -8,19 +8,19 @@ class Product {
 public:
 	Product(int = 0, int = 0, string = "", int = 0, int = 0);
 
-	int getProdID() const;
+	int GetProdID() const;
 
-	string getProdName() const;
-	void setProdName(string&);
+	string GetProdName() const;
+	void SetProdName(string&);
 
-	int getProdPrice() const;
-	void setProdPrice(int&);
+	int GetProdPrice() const;
+	void SetProdPrice(int&);
 
-	int getProdClassif() const;
-	void setProdClassif(int&);
+	int GetProdClassif() const;
+	void SetProdClassif(int&);
 
-	int getProdStock() const;
-	void setProdStock(int&);
+	int GetProdStock() const;
+	void SetProdStock(int&);
 
 	void ShowProdInfo() const;
 

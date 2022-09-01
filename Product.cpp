@@ -8,47 +8,47 @@ Product::Product(int id, int classif, string name, int stock, int price)
 {
 }
 
-int Product::getProdID() const
+int Product::GetProdID() const
 {
     return prodID;
 }
 
-string Product::getProdName() const
+string Product::GetProdName() const
 {
     return prodName;
 }
 
-void Product::setProdName(string& name)
+void Product::SetProdName(string& name)
 {
     prodName = name;
 }
 
-int Product::getProdPrice() const
+int Product::GetProdPrice() const
 {
     return prodPrice;
 }
 
-void Product::setProdPrice(int& price)
+void Product::SetProdPrice(int& price)
 {
     prodPrice = price;
 }
 
-int Product::getProdClassif() const
+int Product::GetProdClassif() const
 {
     return prodClassif;
 }
 
-void Product::setProdClassif(int& classif)
+void Product::SetProdClassif(int& classif)
 {
     prodClassif = classif;
 }
 
-int Product::getProdStock() const
+int Product::GetProdStock() const
 {
     return prodStock;
 }
 
-void Product::setProdStock(int& stock)
+void Product::SetProdStock(int& stock)
 {
     prodStock = stock;
 }
