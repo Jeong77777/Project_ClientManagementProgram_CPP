@@ -50,3 +50,8 @@ void Order::SetOrderProdNum(int& prodNum)
 {
 	orderProdNum = prodNum;
 }
+
+void Order::ShowOrderInfo() const
+{
+
+}

@@ -86,8 +86,8 @@ void ProductHandler::SearchProdUsingIdMenu()
 	/*** 상품ID로 검색 ***/
 	int id;
 	Product* product;
-	cout << "상품ID를 입력하세요(1001부터 9999까지의 숫자): ";
-	id = GetInt::GetInteger(1001, 9999);
+	cout << "상품ID를 입력하세요: ";
+	id = GetInt::GetInteger();
 	product = SearchProdUsingId(id);
 	ShowSearchResult(product);
 
@@ -111,7 +111,7 @@ void ProductHandler::ShowSearchResult(Product* client) const
 	cout << LINE80 << endl;
 	cout << setw(8) << left << "상품ID";
 	cout << setw(10) << left << "상품종류";
-	cout << setw(20) << left << "상품명";
+	cout << setw(24) << left << "상품명";
 	cout << setw(10) << left << "재고수량";
 	cout << setw(10) << left << "가격" << endl;
 	cout << LINE80 << endl;
@@ -148,7 +148,7 @@ void ProductHandler::ProdDeleteModifyMenu(Product* product)
 
 	if (sel == 1) {
 		DeleteProdUsingPtr(product);
-		cout << "삭제 완료!\n" << endl;
+		cout << "\n삭제 완료!\n" << endl;
 		cout << "메뉴로 돌아가기 (0): ";
 		GetInt::GetOnlyZero();
 	}
@@ -196,7 +196,7 @@ void ProductHandler::ModifyProdMenu(Product* product)
 	else
 		return;	
 
-	cout << "변경 완료!\n" << endl;
+	cout << "\n변경 완료!\n" << endl;
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
 }
@@ -250,7 +250,7 @@ void ProductHandler::ShowSearchResults(vector<Product*>& searchResults) const
 	cout << setw(10) << left << "번호";
 	cout << setw(8) << left << "상품ID";
 	cout << setw(10) << left << "상품종류";
-	cout << setw(20) << left << "상품명";
+	cout << setw(24) << left << "상품명";
 	cout << setw(10) << left << "재고수량";
 	cout << setw(10) << left << "가격" << endl;
 	cout << LINE80 << endl;
@@ -325,7 +325,7 @@ void ProductHandler::ShowAllProdInfoMenu()
 	cout << setw(10) << left << "번호";
 	cout << setw(8) << left << "상품ID";
 	cout << setw(10) << left << "상품종류";
-	cout << setw(20) << left << "상품명";
+	cout << setw(24) << left << "상품명";
 	cout << setw(10) << left << "재고수량";
 	cout << setw(10) << left << "가격" << endl;
 	cout << LINE80 << endl;
@@ -363,7 +363,7 @@ int ProductHandler::MakeProdId()
 	while (1) {
 		id = GetInt::GetInteger();
 
-		if (id < 1000 || id > 10000) {
+		if (id < 1000 || id > 9999) {
 			cout << "1001부터 9999까지의 숫자를 입력하세요: ";
 		}
 		else if (productList.find(id) != productList.end())

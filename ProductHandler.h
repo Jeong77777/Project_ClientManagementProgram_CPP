@@ -19,7 +19,7 @@ public:
 	void SearchProdUsingClasMenu();
 	void ShowAllProdInfoMenu();
 
-	Product* SearchProdUsingId(int id) const;
+	Product* SearchProdUsingId(int) const;
 	void DeleteProdUsingPtr(Product*);	
 	vector<Product*> SearchProdUsingName(string) const;
 	void ShowSearchResult(Product*) const;

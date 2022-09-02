@@ -22,6 +22,8 @@ public:
 	int GetOrderProdNum() const;
 	void SetOrderProdNum(int&);
 
+	void ShowOrderInfo() const;
+
 private:
 	int orderNum;		// 주문번호
 	string orderDate;       // 주문일자

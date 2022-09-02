@@ -15,7 +15,7 @@ public:
 	void ShowOrderMenu() const;
 	void AddOrderMenu();
 	void SearchOrderMenu();
-//	void SearchOrderUsingOrderNumMenu();
+	void SearchOrderUsingNumMenu();
 //	void ModifyOrderMenu(Order*);
 //	void SearchProdUsingMonthMenu();
 //	void SearchProdUsingDataMenu();
@@ -24,11 +24,13 @@ public:
 //	void SearchOrderUsingClasMenu();
 //	void ShowAllOrderInfoMenu();
 //
-//	Order* SearchProdUsingId(int id) const;
+	Order* SearchOrderUsingNum(int) const;
 //	void DeleteProdUsingPtr(Order*);
 //	vector<Order*> SearchProdUsingName(string) const;
-//	void ShowSearchResult(Order*) const;
+	void ShowSearchResult(Order*) const;
 //	void ShowSearchResults(vector<Order*>&) const;
+	void ShowOrderInfoRow1(Order* order) const;
+	void ShowOrderInfoRow2(Order* order) const;
 //	vector<Order*> SearchProdUsingClas(int) const;
 //	void ShowAllProdInfo() const;
 //

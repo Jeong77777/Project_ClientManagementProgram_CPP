@@ -108,7 +108,7 @@ void ClientHandler::ClientDeleteModifyMenu(Client* client)
 
 	if (sel == 1) {
 		DeleteCltUsingPtr(client);
-		cout << "삭제 완료!\n" << endl;
+		cout << "\n삭제 완료!\n" << endl;
 		cout << "메뉴로 돌아가기 (0): ";
 		GetInt::GetOnlyZero();
 	}
@@ -150,7 +150,7 @@ void ClientHandler::ModifyClientMenu(Client* client)
 		return;
 	
 	
-	cout << "변경 완료!\n" << endl;
+	cout << "\n변경 완료!\n" << endl;
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
 }

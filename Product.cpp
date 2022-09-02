@@ -65,7 +65,7 @@ void Product::ShowProdInfo() const
     else if(prodClassif == 3){
         cout << setw(10) << left << "위생용품";
     }
-    cout << setw(20) << left << prodName;
+    cout << setw(24) << left << prodName;
     cout << setw(10) << left << prodStock;
     cout << setw(10) << left << prodPrice << endl;
 }

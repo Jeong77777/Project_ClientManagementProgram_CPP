@@ -2,6 +2,7 @@
 #include "GetInteger.h"
 #include "Line.h"
 #include <iostream>
+#include <iomanip>
 
 OrderHandler::OrderHandler(ClientHandler& cltRef, ProductHandler& prodRef)
 	:cltManager(cltRef), prodManager(prodRef)
@@ -37,14 +38,15 @@ void OrderHandler::AddOrderMenu()
 	date = GetDateString();
 	cltID = GetCltID();
 	prodID = GetProdID();
-	cout << "주문 수량을 입력하세요: ";
+	cout << "주문 수량: ";
 	prodNum = GetInt::GetInteger();
 	num = MakeOrderNum();
 
 	/*** 주문 정보 등록 ***/
 	Order* newOrder = new Order(num, date, cltID, prodID, prodNum);
 	orderList.insert({ num, newOrder });
-	cout << "\n주문 내역 등록 완료!\n" << endl;
+	cout << "\n주문 내역 등록 완료!" << endl;
+	cout << "주문번호는 " << num << "입니다.\n" << endl;
 
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
@@ -73,7 +75,7 @@ void OrderHandler::SearchOrderMenu()
 	sel = GetInt::GetInteger(1, 5);
 
 	if (sel == 1)
-		;//SearchOrderUsingIdMenu();
+		SearchOrderUsingNumMenu();
 	else if (sel == 2)
 		;//SearchOrderUsingNameMenu();
 	else if (sel == 3)
@@ -86,6 +88,115 @@ void OrderHandler::SearchOrderMenu()
 		system("cls");
 }
 
+void OrderHandler::SearchOrderUsingNumMenu()
+{
+	/*** 주문번호로 검색 ***/
+	int num;
+	Order* order;
+	cout << "주문번호를 입력하세요: ";
+	num = GetInt::GetInteger();
+	order = SearchOrderUsingNum(num);
+	ShowSearchResult(order);
+
+	/*** 삭제/변경 메뉴 호출 ***/
+	if (order != nullptr)
+		;//ProdDeleteModifyMenu(product);
+	else {
+		cout << "메뉴로 돌아가기 (0): ";
+		GetInt::GetOnlyZero();
+	}
+
+	system("cls");
+}
+
+Order* OrderHandler::SearchOrderUsingNum(int num) const
+{
+	/*** 주문번호로 검색 ***/
+	auto i = orderList.find(num);
+
+	if (i != orderList.end())
+		return i->second;
+	else
+		return nullptr;
+}
+
+void OrderHandler::ShowSearchResult(Order* order) const
+{
+	/*** 주문번호로 검색한 결과 출력 ***/
+	system("cls");
+	cout << LINE80 << endl;
+	cout << "\t\t\t\t검색 결과" << endl;
+	cout << LINE80 << endl;
+	cout << setw(16) << left << "주문번호";
+	cout << setw(14) << left << "주문날짜";
+	cout << setw(30) << left << "상품ID(상품명)";
+	cout << setw(12) << left << "주문수량";
+	cout << setw(10) << left << "주문금액" << endl;
+	cout << setw(16) << left << "고객ID(이름)";
+	cout << setw(14) << left << "전화번호";
+	cout << setw(30) << left << "주소" << endl;
+	cout << LINE80 << endl;
+	
+	if (order != nullptr) {
+		ShowOrderInfoRow1(order);
+		ShowOrderInfoRow2(order);
+		cout << endl;
+	}
+	else {
+		cout << "\n존재하지 않는 주문번호입니다.\n" << endl;
+	}
+	system("pause");
+}
+
+void OrderHandler::ShowOrderInfoRow1(Order* order) const
+{
+	/*** 주문 정보 1행 출력 ***/
+
+	/*** 주문번호 ***/
+	cout << setw(16) << left << order->GetOrderNum();
+
+	/*** 주문날짜 ***/
+	cout << setw(14) << left << order->GetOrderDate();
+
+	/*** 상품ID(상품명) ***/
+	Product* product = prodManager.SearchProdUsingId(order->GetOrderProdID());
+	if (product != nullptr) {
+		cout << setw(30) << left << to_string(product->GetProdID()) + \
+			'(' + product->GetProdName() + ')';
+	}
+	else {
+		cout << setw(30) << left << "상품 정보 없음";
+	}
+
+	/*** 주문수량 ***/
+	cout << setw(12) << left << order->GetOrderProdNum();
+
+	/*** 주문금액 ***/
+	if (product != nullptr) {
+		cout << setw(10) << left << order->GetOrderProdNum() * product->GetProdPrice() << endl;
+	}
+	else {
+		cout << setw(10) << left << "상품 정보 없음" << endl;
+	}
+}
+
+void OrderHandler::ShowOrderInfoRow2(Order* order) const
+{
+	/*** 주문 정보 2행 출력 ***/
+
+	/*** 고객ID(이름), 전화번호, 주소 ***/
+	Client* client = cltManager.SearchCltUsingId(order->GetOrderCltID());
+	if (client != nullptr) {
+		cout << setw(16) << left << to_string(client->getCltID()) + \
+			'(' + client->GetCltName() + ')';
+		cout << setw(14) << left << client->GetCltPhoneNumber();
+		cout << setw(30) << left << client->GetCltAddress() << endl;
+	}
+	else {
+		cout << setw(16) << left << "고객 정보 없음";
+	}
+}
+
 string OrderHandler::GetDateString()
 {
 	/*** string형식의 날짜 입력받기 ***/
@@ -93,7 +204,7 @@ string OrderHandler::GetDateString()
 	int intDate;
 	int day, month, year;
 
-	cout << "주문날짜 입력(ex 20220907): ";
+	cout << "주문날짜(ex 20220907): ";
 
 	while (1) {
 		intDate = GetInt::GetInteger();
@@ -118,7 +229,7 @@ int OrderHandler::GetCltID()
 	/*** 등록된 고객ID 입력받기 ***/
 	int id;
 
-	cout << "고객ID를 입력하세요: ";
+	cout << "고객ID: ";
 	while (1) {
 		id = GetInt::GetInteger();
 		if (cltManager.SearchCltUsingId(id) != nullptr)
@@ -133,10 +244,10 @@ int OrderHandler::GetProdID()
 	/*** 등록된 상품ID 입력받기 ***/
 	int id;
 
-	cout << "상품ID를 입력하세요: ";
+	cout << "상품ID: ";
 	while (1) {
 		id = GetInt::GetInteger();
-		if (cltManager.SearchCltUsingId(id) != nullptr)
+		if (prodManager.SearchProdUsingId(id) != nullptr)
 			return id;
 		else
 			cout << "등록되지 않은 상품ID입니다. 다시 입력하세요: ";
@@ -194,7 +305,7 @@ int OrderHandler::MakeOrderNum()
 	/*** 중복되지 않는 주문번호 생성 ***/
 	auto key = orderList.end();
 	if (orderList.size() == 0) {
-		return 1001;
+		return 10001;
 	}
 	else {
 		int num = (--key)->first;
