@@ -16,7 +16,7 @@ string Order::GetOrderDate() const
 	return orderDate;
 }
 
-void Order::SetOrderDate(int& date)
+void Order::SetOrderDate(string& date)
 {
 	orderDate = date;
 }
@@ -49,9 +49,4 @@ int Order::GetOrderProdNum() const
 void Order::SetOrderProdNum(int& prodNum)
 {
 	orderProdNum = prodNum;
-}
-
-void Order::ShowOrderInfo() const
-{
-
 }

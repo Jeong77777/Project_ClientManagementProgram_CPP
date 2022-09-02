@@ -11,7 +11,7 @@ public:
 	int GetOrderNum() const;
 
 	string GetOrderDate() const;
-	void SetOrderDate(int&);	
+	void SetOrderDate(string&);	
 
 	int GetOrderCltID() const;
 	void SetOrderCltID(int&);
@@ -21,8 +21,6 @@ public:
 
 	int GetOrderProdNum() const;
 	void SetOrderProdNum(int&);
-
-	void ShowOrderInfo() const;
 
 private:
 	int orderNum;		// 주문번호

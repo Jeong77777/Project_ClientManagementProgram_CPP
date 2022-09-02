@@ -177,7 +177,7 @@ void ProductHandler::ModifyProdMenu(Product* product)
 	}
 	else if (sel == 2) {
 		string name;
-		cout << "상품명을 입력하세요 : ";
+		cout << "상품명을 입력하세요: ";
 		cin >> name;
 		product->SetProdName(name);
 	}

@@ -16,24 +16,25 @@ public:
 	void AddOrderMenu();
 	void SearchOrderMenu();
 	void SearchOrderUsingNumMenu();
-//	void ModifyOrderMenu(Order*);
-//	void SearchProdUsingMonthMenu();
-//	void SearchProdUsingDataMenu();
-//	void OrderDeleteModifyMenu(Order*);
-//	void SelectInSearchMenu(vector<Order*>&);
-//	void SearchOrderUsingClasMenu();
-//	void ShowAllOrderInfoMenu();
-//
+	void ModifyOrderMenu(Order*);
+	void SearchOrderUsingCltIdMenu();
+	void SearchOrderUsingProdIdMenu();
+	void SearchOrderUsingDateMenu();
+	void OrderDeleteModifyMenu(Order*);
+	void SelectInSearchMenu(vector<Order*>&);
+	void ShowAllOrderInfoMenu();
+
 	Order* SearchOrderUsingNum(int) const;
-//	void DeleteProdUsingPtr(Order*);
-//	vector<Order*> SearchProdUsingName(string) const;
+	void DeleteOrderUsingPtr(Order*);
+	vector<Order*> SearchOrderUsingCltId(int) const;
+	vector<Order*> SearchOrderUsingProdId(int) const;
+	vector<Order*> SearchOrderUsingDate(string) const;
 	void ShowSearchResult(Order*) const;
-//	void ShowSearchResults(vector<Order*>&) const;
-	void ShowOrderInfoRow1(Order* order) const;
-	void ShowOrderInfoRow2(Order* order) const;
-//	vector<Order*> SearchProdUsingClas(int) const;
-//	void ShowAllProdInfo() const;
-//
+	void ShowSearchResults(vector<Order*>&) const;
+	void ShowOrderInfoRow1(Order*) const;
+	void ShowOrderInfoRow2(Order*) const;
+	void ShowAllOrderInfo() const;
+
 	int MakeOrderNum();
 	string GetDateString();
 	bool CheckValidDate(int, int, int);
