@@ -192,7 +192,7 @@ void OrderHandler::ShowOrderInfoRow2(Order* order) const
 		cout << setw(30) << left << client->GetCltAddress() << endl;
 	}
 	else {
-		cout << setw(16) << left << "고객 정보 없음";
+		cout << setw(16) << left << "고객 정보 없음" << endl;
 	}
 }
 
