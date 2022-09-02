@@ -4,8 +4,8 @@
 class GetInt
 {
 public:
-	static int GetIntger(int min, int max);
-	static int GetIntger();
+	static int GetInteger(int min, int max);
+	static int GetInteger();
 	static void GetOnlyZero();
 };
 

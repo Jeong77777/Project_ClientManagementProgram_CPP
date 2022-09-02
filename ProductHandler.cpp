@@ -34,12 +34,12 @@ void ProductHandler::AddProdMenu()
 	cout << "상품ID: ";
 	id = MakeProdId();
 	cout << "상품종류(1. 치과장비  2. 치과재료  3. 위생용품): ";
-	classif = GetInt::GetIntger(1, 3);
+	classif = GetInt::GetInteger(1, 3);
 	cout << "상품명: ";	cin >> name;
 	cout << "재고수량: ";
-	stock = GetInt::GetIntger();
+	stock = GetInt::GetInteger();
 	cout << "가격: ";
-	price = GetInt::GetIntger();
+	price = GetInt::GetInteger();
 	Product* newProduct = new Product(id, classif, name, stock, price);
 	productList.insert({ id, newProduct });
 	cout << "\n상품 등록 완료!\n" << endl;
@@ -67,7 +67,7 @@ void ProductHandler::SearchProdMenu()
 
 	/*** 상품 조회 메뉴 선택 ***/
 	cout << "메뉴를 선택하세요: ";
-	sel = GetInt::GetIntger(1, 5);
+	sel = GetInt::GetInteger(1, 5);
 
 	if (sel == 1)
 		SearchProdUsingIdMenu();
@@ -87,7 +87,7 @@ void ProductHandler::SearchProdUsingIdMenu()
 	int id;
 	Product* product;
 	cout << "상품ID를 입력하세요(1001부터 9999까지의 숫자): ";
-	id = GetInt::GetIntger(1001, 9999);
+	id = GetInt::GetInteger(1001, 9999);
 	product = SearchProdUsingId(id);
 	ShowSearchResult(product);
 
@@ -144,7 +144,7 @@ void ProductHandler::ProdDeleteModifyMenu(Product* product)
 	cout << "1. 삭제\t\t2. 변경\t\t3. 나가기" << endl;
 	cout << LINE80 << endl;
 	cout << "메뉴를 선택하세요: ";
-	sel = GetInt::GetIntger(1, 3);
+	sel = GetInt::GetInteger(1, 3);
 
 	if (sel == 1) {
 		DeleteProdUsingPtr(product);
@@ -166,13 +166,13 @@ void ProductHandler::ModifyProdMenu(Product* product)
 	cout << "1. 상품종류       2. 상품명       3. 재고수량       4. 가격       5. 나가기" << endl;
 	cout << LINE80 << endl;
 	cout << "변경할 항목을 선택하세요: ";
-	sel = GetInt::GetIntger(1, 5);
+	sel = GetInt::GetInteger(1, 5);
 
 	cout << LINE80 << endl;
 	if (sel == 1) {
 		int classif;
 		cout << "상품종류(1. 치과장비  2. 치과재료  3. 위생용품): ";
-		classif = GetInt::GetIntger(1, 3);
+		classif = GetInt::GetInteger(1, 3);
 		product->SetProdClassif(classif);
 	}
 	else if (sel == 2) {
@@ -184,13 +184,13 @@ void ProductHandler::ModifyProdMenu(Product* product)
 	else if (sel == 3) {
 		int stock;
 		cout << "재고수량을 입력하세요: ";
-		stock = GetInt::GetIntger();
+		stock = GetInt::GetInteger();
 		product->SetProdStock(stock);
 	}
 	else if (sel == 4) {
 		int price;
 		cout << "가격을 입력하세요: ";
-		price = GetInt::GetIntger();
+		price = GetInt::GetInteger();
 		product->SetProdPrice(price);
 	}
 	else
@@ -272,7 +272,7 @@ void ProductHandler::SelectInSearchMenu(vector<Product*>& list)
 	int sel;
 	if (list.size() != 0) {
 		cout << "삭제 또는 변경할 항목을 선택하세요(나가기 0): # ";
-		sel = GetInt::GetIntger(0, list.size());
+		sel = GetInt::GetInteger(0, list.size());
 		if (sel != 0)
 			/*** 삭제/변경 메뉴 진입 ***/
 			ProdDeleteModifyMenu(list[sel - 1]);
@@ -291,7 +291,7 @@ void ProductHandler::SearchProdUsingClasMenu()
 	vector<Product*> searchResults;
 
 	cout << "상품종류(1. 치과장비  2. 치과재료  3. 위생용품): ";
-	classif = GetInt::GetIntger(1, 3);
+	classif = GetInt::GetInteger(1, 3);
 
 	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchProdUsingClas(classif);
@@ -361,7 +361,7 @@ int ProductHandler::MakeProdId()
 	/*** 중복되지 않는 ID 생성 ***/
 	int id;
 	while (1) {
-		id = GetInt::GetIntger();
+		id = GetInt::GetInteger();
 
 		if (id < 1000 || id > 10000) {
 			cout << "1001부터 9999까지의 숫자를 입력하세요: ";

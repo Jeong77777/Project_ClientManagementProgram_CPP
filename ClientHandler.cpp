@@ -63,7 +63,7 @@ void ClientHandler::SearchClientMenu()
 
 	/*** 고객 조회 메뉴 선택 ***/
 	cout << "메뉴를 선택하세요: ";
-	sel = GetInt::GetIntger(1, 4);
+	sel = GetInt::GetInteger(1, 4);
 
 	if (sel == 1)
 		SearchCltUsingIdMenu();
@@ -81,7 +81,7 @@ void ClientHandler::SearchCltUsingIdMenu()
 	int id;
 	Client* client;
 	cout << "고객ID를 입력하세요: ";
-	id = GetInt::GetIntger();
+	id = GetInt::GetInteger();
 	client = SearchCltUsingId(id);
 	ShowSearchResult(client);
 
@@ -104,7 +104,7 @@ void ClientHandler::ClientDeleteModifyMenu(Client* client)
 	cout << "1. 삭제\t\t2. 변경\t\t3. 나가기" << endl;
 	cout << LINE80 << endl;
 	cout << "메뉴를 선택하세요: ";
-	sel = GetInt::GetIntger(1, 3);
+	sel = GetInt::GetInteger(1, 3);
 
 	if (sel == 1) {
 		DeleteCltUsingPtr(client);
@@ -126,7 +126,7 @@ void ClientHandler::ModifyClientMenu(Client* client)
 	cout << "1. 이름\t\t2. 전화번호\t\t3. 주소\t\t4. 나가기" << endl;
 	cout << LINE80 << endl;
 	cout << "변경할 항목을 선택하세요: ";
-	sel = GetInt::GetIntger(1, 4);
+	sel = GetInt::GetInteger(1, 4);
 
 	cout << LINE80 << endl;
 	if (sel == 1) {
@@ -211,7 +211,7 @@ void ClientHandler::SelectInSearchMenu(vector<Client*>& list)
 	int sel;
 	if (list.size() != 0) {
 		cout << "삭제 또는 변경할 항목을 선택하세요(나가기 0): # ";
-		sel = GetInt::GetIntger(0, list.size());
+		sel = GetInt::GetInteger(0, list.size());
 		if (sel != 0)
 			/*** 삭제/변경 메뉴 진입 ***/
 			ClientDeleteModifyMenu(list[sel - 1]);			

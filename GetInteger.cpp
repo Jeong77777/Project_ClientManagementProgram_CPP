@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int GetInt::GetIntger(int min, int max)
+int GetInt::GetInteger(int min, int max)
 {
 	int sel;	
 	while (1) {
@@ -21,7 +21,7 @@ int GetInt::GetIntger(int min, int max)
 	}
 }
 
-int GetInt::GetIntger()
+int GetInt::GetInteger()
 {
 	int sel;
 	while (1) {

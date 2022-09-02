@@ -6,11 +6,11 @@ using namespace std;
 
 class Order {
 public:
-	Order(int = 0, int = 0, int = 0, int = 0);
+	Order(int = 0, string = "0000-00-00", int = 0, int = 0, int = 0);
 
 	int GetOrderNum() const;
 
-	int GetOrderDate() const;
+	string GetOrderDate() const;
 	void SetOrderDate(int&);	
 
 	int GetOrderCltID() const;
@@ -24,7 +24,7 @@ public:
 
 private:
 	int orderNum;		// 주문번호
-	int orderDate;       // 주문일자
+	string orderDate;       // 주문일자
 	int orderCltID;      // 고객ID
 	int orderProdID;     // 상품ID
 	int orderProdNum;    // 주문수량

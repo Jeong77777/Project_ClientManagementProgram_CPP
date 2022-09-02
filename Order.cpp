@@ -1,8 +1,8 @@
 #include "Order.h"
 
 
-Order::Order(int data, int cltID, int prodID, int prodNum)
-	: orderDate(data), orderCltID(cltID), orderProdID(prodID), orderProdNum(prodNum)
+Order::Order(int num, string date, int cltID, int prodID, int prodNum)
+	: orderNum(num), orderDate(date), orderCltID(cltID), orderProdID(prodID), orderProdNum(prodNum)
 {
 }
 
@@ -11,7 +11,7 @@ int Order::GetOrderNum() const
 	return orderNum;
 }
 
-int Order::GetOrderDate() const
+string Order::GetOrderDate() const
 {
 	return orderDate;
 }

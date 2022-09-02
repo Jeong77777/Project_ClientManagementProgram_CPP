@@ -2,15 +2,19 @@
 #define __ORDER_HANDLER_H__
 
 #include "Order.h"
+#include "ClientHandler.h"
+#include "ProductHandler.h"
 #include <map>
 #include <vector>
 
 class OrderHandler
 {
-//public:
-//	void ShowOrderMenu() const;
-//	void AddOrderMenu();
-//	void SearchOrderMenu();
+public:
+	OrderHandler(ClientHandler&, ProductHandler&);
+
+	void ShowOrderMenu() const;
+	void AddOrderMenu();
+	void SearchOrderMenu();
 //	void SearchOrderUsingOrderNumMenu();
 //	void ModifyOrderMenu(Order*);
 //	void SearchProdUsingMonthMenu();
@@ -28,11 +32,16 @@ class OrderHandler
 //	vector<Order*> SearchProdUsingClas(int) const;
 //	void ShowAllProdInfo() const;
 //
-//	int MakeProdId();
-//
-//private:
-//	map<int, Order*> orderList;
+	int MakeOrderNum();
+	string GetDateString();
+	bool CheckValidDate(int, int, int);
+	int GetCltID();
+	int GetProdID();
 
+private:
+	map<int, Order*> orderList;
+	ClientHandler& cltManager;
+	ProductHandler& prodManager;
 };
 
 

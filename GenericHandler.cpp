@@ -2,6 +2,9 @@
 #include "Line.h"
 #include "GetInteger.h"
 
+GenericHandler::GenericHandler(): cltManager(), prodManager(), orderManager(cltManager, prodManager)
+{
+}
 
 void GenericHandler::ShowGenMenu() const
 {
@@ -22,7 +25,7 @@ void GenericHandler::CltMenu()
 		int sel;
 		cltManager.ShowClientMenu();
 		cout << "메뉴를 선택하세요: ";
-		sel = GetInt::GetIntger(1, 3);
+		sel = GetInt::GetInteger(1, 3);
 
 		if (sel == 1)	// 신규고객등록
 		{
@@ -49,7 +52,7 @@ void GenericHandler::ProdMenu()
 		int sel;
 		prodManager.ShowProdMenu();
 		cout << "메뉴를 선택하세요: ";
-		sel = GetInt::GetIntger(1, 3);
+		sel = GetInt::GetInteger(1, 3);
 
 		if (sel == 1)	// 상품등록
 		{
@@ -60,6 +63,33 @@ void GenericHandler::ProdMenu()
 		{
 			system("cls");
 			prodManager.SearchProdMenu();
+		}
+		else				// 처음으로
+		{
+			system("cls");
+			break;
+		}
+	}	
+}
+
+void GenericHandler::OrderMenu()
+{
+	while (1)
+	{
+		int sel;
+		orderManager.ShowOrderMenu();
+		cout << "메뉴를 선택하세요: ";
+		sel = GetInt::GetInteger(1, 3);
+
+		if (sel == 1)	// 주문내역등록
+		{
+			system("cls");
+			orderManager.AddOrderMenu();
+		}
+		else if (sel == 2)	// 정보조회삭제변경
+		{
+			system("cls");
+			orderManager.SearchOrderMenu();
 		}
 		else				// 처음으로
 		{

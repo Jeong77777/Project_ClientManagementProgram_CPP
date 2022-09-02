@@ -11,7 +11,7 @@ int main()
 	{
 		genManager.ShowGenMenu();
 		cout << "메뉴를 선택하세요: ";
-		choice = GetInt::GetIntger(1, 4);
+		choice = GetInt::GetInteger(1, 4);
 
 		switch (choice)
 		{
@@ -24,7 +24,8 @@ int main()
 			genManager.ProdMenu();
 			break;
 		case 3:
-			//genManager.SalesMenu();
+			system("cls");
+			genManager.OrderMenu();
 			break;
 		case 4:	//exit
 			return 0;			
