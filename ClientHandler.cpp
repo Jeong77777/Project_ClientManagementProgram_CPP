@@ -16,7 +16,7 @@ ClientHandler::ClientHandler()
 		while (!file.eof()) {
 			vector<string> row = parseCSV(file, ',');
 			if (row.size()) {
-				int id = atoi(row[0].c_str());
+				int id = stoi(row[0]);
 				Client* c = new Client(id, row[1], row[2], row[3]);
 				clientList.insert({ id, c });
 			}

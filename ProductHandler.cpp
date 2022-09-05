@@ -16,10 +16,10 @@ ProductHandler::ProductHandler()
 		while (!file.eof()) {
 			vector<string> row = parseCSV(file, ',');
 			if (row.size()) {
-				int id = atoi(row[0].c_str());
-				int classif = atoi(row[1].c_str());
-				int stock = atoi(row[3].c_str());
-				int price = atoi(row[4].c_str());
+				int id = stoi(row[0]);
+				int classif = stoi(row[1]);
+				int stock = stoi(row[3]);
+				int price = stoi(row[4]);
 				Product* p = new Product(id, classif, row[2], stock, price);
 				productList.insert({ id, p });
 			}

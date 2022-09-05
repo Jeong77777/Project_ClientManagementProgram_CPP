@@ -15,10 +15,10 @@ OrderHandler::OrderHandler(ClientHandler& cltRef, ProductHandler& prodRef)
 		while (!file.eof()) {
 			vector<string> row = parseCSV(file, ',');
 			if (row.size()) {
-				int num = atoi(row[0].c_str());
-				int cltID = atoi(row[2].c_str());
-				int prodID = atoi(row[3].c_str());
-				int prodNum = atoi(row[4].c_str());
+				int num = stoi(row[0]);
+				int cltID = stoi(row[2]);
+				int prodID = stoi(row[3]);
+				int prodNum = stoi(row[4]);
 				Order* o = new Order(num, row[1], cltID, prodID, prodNum);
 				orderList.insert({ num, o });
 			}
@@ -107,7 +107,7 @@ void OrderHandler::SearchOrderMenu()
 
 	/*** 상품 조회 메뉴 선택 ***/
 	cout << "메뉴를 선택하세요: ";
-	sel = GetInt::GetInteger(1, 5);
+	sel = GetInt::GetInteger(1, 6);
 
 	if (sel == 1)
 		SearchOrderUsingNumMenu();
