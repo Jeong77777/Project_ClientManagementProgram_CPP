@@ -5,6 +5,41 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <fstream>
+#include <sstream>
+
+ClientHandler::ClientHandler()
+{
+	ifstream file;
+	file.open("clientlist.txt");
+	if (!file.fail()) {
+		while (!file.eof()) {
+			vector<string> row = parseCSV(file, ',');
+			if (row.size()) {
+				int id = atoi(row[0].c_str());
+				Client* c = new Client(id, row[1], row[2], row[3]);
+				clientList.insert({ id, c });
+			}
+		}
+	}
+	file.close();
+}
+
+ClientHandler::~ClientHandler()
+{
+	ofstream file;
+	file.open("clientlist.txt");
+	if (!file.fail()) {
+		for (const auto& v : clientList) {
+			Client* c = v.second;
+			file << c->getCltID() << ", " << c->GetCltName() << ", ";
+			file << c->GetCltPhoneNumber() << ", ";
+			file << c->GetCltAddress() << endl;
+			delete c;
+		}
+	}
+	file.close();
+}
 
 
 void ClientHandler::ShowClientMenu() const
@@ -321,4 +356,28 @@ int ClientHandler::MakeClientId()
 		int id = (--key)->first;
 		return ++id;
 	}
+}
+
+vector<string> ClientHandler::parseCSV(istream& file, char delimiter)
+{
+	stringstream ss;
+	vector<string> row;
+	string t = " \n\r\t";
+
+	while (!file.eof()) {
+		char c = file.get();
+		if (c == delimiter || c == '\r' || c == '\n') {
+			if (file.peek() == '\n') file.get();
+			string s = ss.str();
+			s.erase(0, s.find_first_not_of(t));
+			s.erase(s.find_last_not_of(t) + 1);
+			row.push_back(s);
+			ss.str("");
+			if (c != delimiter) break;
+		}
+		else {
+			ss << c;
+		}
+	}
+	return row;
 }

@@ -8,6 +8,9 @@
 class ProductHandler
 {
 public:
+	ProductHandler();
+	~ProductHandler();
+
 	void ShowProdMenu() const;
 	void AddProdMenu();
 	void SearchProdMenu();
@@ -28,6 +31,7 @@ public:
 	void ShowAllProdInfo() const;
 
 	int MakeProdId();
+	vector<string> parseCSV(istream&, char);
 
 private:
 	map<int, Product*> productList;

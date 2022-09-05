@@ -3,11 +3,46 @@
 #include "Line.h"
 #include <iostream>
 #include <iomanip>
+#include <fstream>
+#include <sstream>
 
 OrderHandler::OrderHandler(ClientHandler& cltRef, ProductHandler& prodRef)
 	:cltManager(cltRef), prodManager(prodRef)
 {
+	ifstream file;
+	file.open("orderlist.txt");
+	if (!file.fail()) {
+		while (!file.eof()) {
+			vector<string> row = parseCSV(file, ',');
+			if (row.size()) {
+				int num = atoi(row[0].c_str());
+				int cltID = atoi(row[2].c_str());
+				int prodID = atoi(row[3].c_str());
+				int prodNum = atoi(row[4].c_str());
+				Order* o = new Order(num, row[1], cltID, prodID, prodNum);
+				orderList.insert({ num, o });
+			}
+		}
+	}
+	file.close();
 }
+
+OrderHandler::~OrderHandler()
+{
+	ofstream file;
+	file.open("orderlist.txt");
+	if (!file.fail()) {
+		for (const auto& v : orderList) {
+			Order* o = v.second;
+			file << o->GetOrderNum() << ", " << o->GetOrderDate() << ", ";
+			file << o->GetOrderCltID() << ", " << o->GetOrderProdID() << ", ";
+			file << o->GetOrderProdNum() << endl;
+			delete o;
+		}
+	}
+	file.close();
+}
+
 
 void OrderHandler::ShowOrderMenu() const
 {
@@ -25,7 +60,7 @@ void OrderHandler::AddOrderMenu()
 {
 	/*** 주문 내역 등록 메뉴 ***/
 	int num;		// 주문번호
-	string date;	// 주문날짜
+	string date;	// 주문일자
 	int cltID;		// 고객ID
 	int prodID;		// 상품ID
 	int prodNum;	// 주문수량
@@ -65,7 +100,7 @@ void OrderHandler::SearchOrderMenu()
 	cout << "\t\t\t\t1.  주문번호로 조회" << endl;
 	cout << "\t\t\t\t2.  고객ID로 조회" << endl;
 	cout << "\t\t\t\t3.  상품ID로 조회" << endl;
-	cout << "\t\t\t\t4.  날짜별 조회" << endl;
+	cout << "\t\t\t\t4.  주문일자별 조회" << endl;
 	cout << "\t\t\t\t5.  전체 주문 내역 조회" << endl;
 	cout << "\t\t\t\t6.  이전 메뉴" << endl;
 	cout << LINE80 << endl;
@@ -128,7 +163,7 @@ void OrderHandler::ShowSearchResult(Order* order) const
 	cout << "\t\t\t\t검색 결과" << endl;
 	cout << LINE80 << endl;
 	cout << setw(16) << left << "주문번호";
-	cout << setw(15) << left << "주문날짜";
+	cout << setw(15) << left << "주문일자";
 	cout << setw(30) << left << "상품ID(상품명)";
 	cout << setw(12) << left << "주문수량";
 	cout << setw(10) << left << "주문금액" << endl;
@@ -154,7 +189,7 @@ void OrderHandler::ShowOrderInfoRow1(Order* order) const
 	/*** 주문번호 ***/
 	cout << setw(16) << left << order->GetOrderNum();
 
-	/*** 주문날짜 ***/
+	/*** 주문일자 ***/
 	cout << setw(15) << left << order->GetOrderDate();
 
 	/*** 상품ID(상품명) ***/
@@ -231,7 +266,7 @@ void OrderHandler::ModifyOrderMenu(Order* order)
 	/*** 구매 내역 변경 메뉴 ***/
 	int sel;
 	cout << LINE80 << endl;
-	cout << "1. 주문날짜       2. 고객ID       3. 상품ID       4. 주문수량       5. 나가기" << endl;
+	cout << "1. 주문일자       2. 고객ID       3. 상품ID       4. 주문수량       5. 나가기" << endl;
 	cout << LINE80 << endl;
 	cout << "변경할 항목을 선택하세요: ";
 	sel = GetInt::GetInteger(1, 5);
@@ -239,7 +274,7 @@ void OrderHandler::ModifyOrderMenu(Order* order)
 	cout << LINE80 << endl;
 	if (sel == 1) {
 		string date;
-		cout << "주문날짜를 입력하세요: ";
+		cout << "주문일자를 입력하세요: ";
 		date = GetDateString();
 		order->SetOrderDate(date);
 	}
@@ -307,7 +342,7 @@ void OrderHandler::ShowSearchResults(vector<Order*>& searchResults) const
 	cout << LINE90 << endl;
 	cout << setw(10) << left << "번호";
 	cout << setw(16) << left << "주문번호";
-	cout << setw(15) << left << "주문날짜";
+	cout << setw(15) << left << "주문일자";
 	cout << setw(30) << left << "상품ID(상품명)";
 	cout << setw(12) << left << "주문수량";
 	cout << setw(10) << left << "주문금액" << endl;
@@ -380,7 +415,7 @@ vector<Order*> OrderHandler::SearchOrderUsingProdId(int prodID) const
 
 void OrderHandler::SearchOrderUsingDateMenu()
 {
-	/*** 날짜별 조회 메뉴 ***/
+	/*** 일자별 조회 메뉴 ***/
 	string date;
 	vector<Order*> searchResults;
 
@@ -397,7 +432,7 @@ void OrderHandler::SearchOrderUsingDateMenu()
 
 vector<Order*> OrderHandler::SearchOrderUsingDate(string date) const
 {
-	/*** 날짜로 검색 ***/
+	/*** 일자로 검색 ***/
 	vector<Order*> searchResults;
 
 	for (auto i = orderList.begin(); i != orderList.end(); i++) {
@@ -417,7 +452,7 @@ void OrderHandler::ShowAllOrderInfoMenu()
 	cout << LINE90 << endl;
 	cout << setw(10) << left << "번호";
 	cout << setw(16) << left << "주문번호";
-	cout << setw(15) << left << "주문날짜";
+	cout << setw(15) << left << "주문일자";
 	cout << setw(30) << left << "상품ID(상품명)";
 	cout << setw(12) << left << "주문수량";
 	cout << setw(10) << left << "주문금액" << endl;
@@ -462,7 +497,7 @@ string OrderHandler::GetDateString()
 	int intDate;
 	int day, month, year;
 
-	cout << "주문날짜를 입력하세요(ex 20220907): ";
+	cout << "주문일자를 입력하세요(ex 20220907): ";
 
 	while (1) {
 		intDate = GetInt::GetInteger();
@@ -569,4 +604,28 @@ int OrderHandler::MakeOrderNum()
 		int num = (--key)->first;
 		return ++num;
 	}
+}
+
+vector<string> OrderHandler::parseCSV(istream& file, char delimiter)
+{
+	stringstream ss;
+	vector<string> row;
+	string t = " \n\r\t";
+
+	while (!file.eof()) {
+		char c = file.get();
+		if (c == delimiter || c == '\r' || c == '\n') {
+			if (file.peek() == '\n') file.get();
+			string s = ss.str();
+			s.erase(0, s.find_first_not_of(t));
+			s.erase(s.find_last_not_of(t) + 1);
+			row.push_back(s);
+			ss.str("");
+			if (c != delimiter) break;
+		}
+		else {
+			ss << c;
+		}
+	}
+	return row;
 }

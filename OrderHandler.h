@@ -11,6 +11,7 @@ class OrderHandler
 {
 public:
 	OrderHandler(ClientHandler&, ProductHandler&);
+	~OrderHandler();
 
 	void ShowOrderMenu() const;
 	void AddOrderMenu();
@@ -40,6 +41,7 @@ public:
 	bool CheckValidDate(int, int, int);
 	int GetCltID();
 	int GetProdID();
+	vector<string> parseCSV(istream&, char);
 
 private:
 	map<int, Order*> orderList;

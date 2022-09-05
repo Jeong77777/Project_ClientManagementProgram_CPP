@@ -5,6 +5,44 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <fstream>
+#include <sstream>
+
+ProductHandler::ProductHandler()
+{
+	ifstream file;
+	file.open("productlist.txt");
+	if (!file.fail()) {
+		while (!file.eof()) {
+			vector<string> row = parseCSV(file, ',');
+			if (row.size()) {
+				int id = atoi(row[0].c_str());
+				int classif = atoi(row[1].c_str());
+				int stock = atoi(row[3].c_str());
+				int price = atoi(row[4].c_str());
+				Product* p = new Product(id, classif, row[2], stock, price);
+				productList.insert({ id, p });
+			}
+		}
+	}
+	file.close();
+}
+
+ProductHandler::~ProductHandler()
+{
+	ofstream file;
+	file.open("productlist.txt");
+	if (!file.fail()) {
+		for (const auto& v : productList) {
+			Product* p = v.second;
+			file << p->GetProdID() << ", " << p->GetProdClassif() << ", ";
+			file << p->GetProdName() << ", " << p->GetProdStock() << ", ";
+			file << p->GetProdPrice() << endl;
+			delete p;
+		}
+	}
+	file.close();
+}
 
 void ProductHandler::ShowProdMenu() const
 {
@@ -372,4 +410,28 @@ int ProductHandler::MakeProdId()
 			break;
 	}
 	return id;
+}
+
+vector<string> ProductHandler::parseCSV(istream& file, char delimiter)
+{
+	stringstream ss;
+	vector<string> row;
+	string t = " \n\r\t";
+
+	while (!file.eof()) {
+		char c = file.get();
+		if (c == delimiter || c == '\r' || c == '\n') {
+			if (file.peek() == '\n') file.get();
+			string s = ss.str();
+			s.erase(0, s.find_first_not_of(t));
+			s.erase(s.find_last_not_of(t) + 1);
+			row.push_back(s);
+			ss.str("");
+			if (c != delimiter) break;
+		}
+		else {
+			ss << c;
+		}
+	}
+	return row;
 }

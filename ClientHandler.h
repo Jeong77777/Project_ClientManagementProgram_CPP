@@ -9,6 +9,9 @@
 class ClientHandler
 {
 public:
+	ClientHandler();
+	~ClientHandler();
+
 	void ShowClientMenu() const;
 	void AddClientMenu();
 	void SearchClientMenu();
@@ -27,6 +30,7 @@ public:
 	void ShowAllCltInfo() const;
 
 	int MakeClientId();
+	vector<string> parseCSV(istream&, char);
 
 private:
 	map<int, Client*> clientList;
