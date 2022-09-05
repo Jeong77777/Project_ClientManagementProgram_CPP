@@ -538,6 +538,7 @@ int OrderHandler::GetProdID()
 bool OrderHandler::CheckValidDate(int year, int month, int day)
 {
 	/*** 날짜의 유효성 검사 ***/
+
 	/*** 년도 검사 ***/
 	if (year < 1900 || year>2999) // 1900~2999년
 		return false;
