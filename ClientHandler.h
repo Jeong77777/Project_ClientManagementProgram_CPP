@@ -27,10 +27,11 @@ public:
 	vector<Client*> SearchCltUsingName(string) const;
 	void ShowSearchResult(Client*) const;
 	void ShowSearchResults(vector<Client*>&) const;
-	void ShowAllCltInfo() const;
 
 	int MakeClientId();
-	vector<string> parseCSV(istream&, char);
+	string GetPhoneNumber();
+	bool IsValidPhoneNumber(string);
+	vector<string> parseCSV(istream&, char);	
 
 private:
 	map<int, Client*> clientList;

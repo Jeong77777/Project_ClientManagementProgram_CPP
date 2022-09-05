@@ -34,7 +34,6 @@ public:
 	void ShowSearchResults(vector<Order*>&) const;
 	void ShowOrderInfoRow1(Order*) const;
 	void ShowOrderInfoRow2(Order*) const;
-	void ShowAllOrderInfo() const;
 
 	int MakeOrderNum();
 	string GetDateString();

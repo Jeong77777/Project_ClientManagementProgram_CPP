@@ -73,7 +73,7 @@ void OrderHandler::AddOrderMenu()
 	date = GetDateString();
 	cltID = GetCltID();
 	prodID = GetProdID();
-	cout << "주문 수량: ";
+	cout << "주문 수량을 입력하세요: ";
 	prodNum = GetInt::GetInteger();
 	num = MakeOrderNum();
 
@@ -312,8 +312,14 @@ void OrderHandler::SearchOrderUsingCltIdMenu()
 
 	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchOrderUsingCltId(cltID);
+
 	/*** 검색 결과 출력 ***/
+	system("cls");
+	cout << LINE90 << endl;
+	cout << "\t\t\t\t검색 결과" << endl;
 	ShowSearchResults(searchResults);
+	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+	cout << LINE90 << endl;
 
 	/*** 선택 메뉴 진입 ***/
 	SelectInSearchMenu(searchResults);
@@ -334,11 +340,8 @@ vector<Order*> OrderHandler::SearchOrderUsingCltId(int cltID) const
 
 void OrderHandler::ShowSearchResults(vector<Order*>& searchResults) const
 {
-	/*** 고객ID, 상품ID로 검색한 결과들 출력 ***/
-	int cnt = 1;
-	system("cls");
-	cout << LINE90 << endl;
-	cout << "\t\t\t\t검색 결과" << endl;
+	/*** 검색한 결과들 출력 ***/
+	int cnt = 1;	
 	cout << LINE90 << endl;
 	cout << setw(10) << left << "번호";
 	cout << setw(16) << left << "주문번호";
@@ -351,6 +354,7 @@ void OrderHandler::ShowSearchResults(vector<Order*>& searchResults) const
 	cout << setw(15) << left << "전화번호";
 	cout << setw(30) << left << "주소" << endl;
 	cout << LINE90 << endl;
+
 	for (auto i = searchResults.begin(); i != searchResults.end(); i++) {
 		cout << setw(2) << left << "# ";
 		cout << setw(4) << right << cnt;
@@ -360,9 +364,7 @@ void OrderHandler::ShowSearchResults(vector<Order*>& searchResults) const
 		ShowOrderInfoRow2(*i);
 		cout << '\n';
 		cnt++;
-	}
-	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
-	cout << LINE90 << endl;
+	}	
 }
 
 void OrderHandler::SelectInSearchMenu(vector<Order*>& list)
@@ -393,8 +395,14 @@ void OrderHandler::SearchOrderUsingProdIdMenu()
 
 	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchOrderUsingProdId(prodID);
+
 	/*** 검색 결과 출력 ***/
+	system("cls");
+	cout << LINE90 << endl;
+	cout << "\t\t\t\t검색 결과" << endl;
 	ShowSearchResults(searchResults);
+	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+	cout << LINE90 << endl;
 
 	/*** 선택 메뉴 진입 ***/
 	SelectInSearchMenu(searchResults);
@@ -423,8 +431,14 @@ void OrderHandler::SearchOrderUsingDateMenu()
 
 	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchOrderUsingDate(date);
+
 	/*** 검색 결과 출력 ***/
+	system("cls");
+	cout << LINE90 << endl;
+	cout << "\t\t\t\t검색 결과" << endl;
 	ShowSearchResults(searchResults);
+	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+	cout << LINE90 << endl;
 
 	/*** 선택 메뉴 진입 ***/
 	SelectInSearchMenu(searchResults);
@@ -446,48 +460,22 @@ vector<Order*> OrderHandler::SearchOrderUsingDate(string date) const
 void OrderHandler::ShowAllOrderInfoMenu()
 {
 	/*** 전체 주문 내역 조회 메뉴 ***/
-	system("cls");
-	cout << LINE90 << endl;
-	cout << "\t\t\t\t검색 결과" << endl;
-	cout << LINE90 << endl;
-	cout << setw(10) << left << "번호";
-	cout << setw(16) << left << "주문번호";
-	cout << setw(15) << left << "주문일자";
-	cout << setw(30) << left << "상품ID(상품명)";
-	cout << setw(12) << left << "주문수량";
-	cout << setw(10) << left << "주문금액" << endl;
-	cout << "          ";
-	cout << setw(16) << left << "고객ID(이름)";
-	cout << setw(15) << left << "전화번호";
-	cout << setw(30) << left << "주소" << endl;
-	cout << LINE90 << endl;
-	ShowAllOrderInfo();
-	cout << LINE90 << endl;
 
 	/*** 전체 주문 내역 순서대로 가져오기 ***/
 	vector<Order*> allOrders;
 	for (auto i = orderList.begin(); i != orderList.end(); i++)
 		allOrders.push_back(i->second);
 
+	/*** 전체 주문 내역 출력 ***/
+	system("cls");
+	cout << LINE90 << endl;
+	cout << "\t\t\t\t전체 주문 내역 조회" << endl;
+	ShowSearchResults(allOrders);
+	cout << "\n>> 총 " << allOrders.size() << "개의 주문 내역\n" << endl;
+	cout << LINE90 << endl;	
+
 	/*** 선택 메뉴 진입 ***/
 	SelectInSearchMenu(allOrders);
-}
-
-void OrderHandler::ShowAllOrderInfo() const
-{
-	/*** 전체 주문 내역 출력 ***/
-	int cnt = 1;
-	for (auto i = orderList.begin(); i != orderList.end(); i++) {
-		cout << setw(2) << left << "# ";
-		cout << setw(4) << right << cnt;
-		cout << "    ";
-		ShowOrderInfoRow1(i->second);
-		cout << "          ";
-		ShowOrderInfoRow2(i->second);
-		cout << '\n';
-		cnt++;
-	}
-	cout << "\n>> 총 " << orderList.size() << "개의 주문 내역\n" << endl;
 }
 
 string OrderHandler::GetDateString()
@@ -528,7 +516,7 @@ int OrderHandler::GetCltID()
 		if (cltManager.SearchCltUsingId(id) != nullptr)
 			return id;
 		else
-			cout << "등록되지 않은 고객ID입니다. 다시 입력하세요 : ";		
+			cout << "등록되지 않은 고객ID입니다. 다시 입력하세요: ";		
 	}
 }
 

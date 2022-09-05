@@ -65,9 +65,9 @@ void ClientHandler::AddClientMenu()
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t신규 고객 등록" << endl;
 	cout << LINE80 << endl;
-	cout << "이름: ";		cin >> name;
-	cout << "전화번호: ";	cin >> phoneNumber;
-	cout << "주소: ";		cin.ignore();	getline(cin, address);
+	cout << "이름을 입력하세요: ";		cin >> name;
+	phoneNumber = GetPhoneNumber();
+	cout << "주소를 입력하세요: ";		cin.ignore();	getline(cin, address);
 
 	/*** ID 생성 및 신규 고객 등록 ***/
 	int id = MakeClientId();
@@ -172,8 +172,7 @@ void ClientHandler::ModifyClientMenu(Client* client)
 	}
 	else if (sel == 2) {
 		string phone;
-		cout << "전화번호를 입력하세요: ";
-		cin >> phone;
+		phone = GetPhoneNumber();
 		client->SetCltPhoneNumber(phone);
 	}
 	else if (sel == 3) {
@@ -200,8 +199,14 @@ void ClientHandler::SearchCltUsingNameMenu()
 
 	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchCltUsingName(name);
+
 	/*** 검색 결과 출력 ***/
+	system("cls");
+	cout << LINE80 << endl;
+	cout << "\t\t\t\t검색 결과" << endl;
 	ShowSearchResults(searchResults);
+	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+	cout << LINE80 << endl;
 
 	/*** 선택 메뉴 진입 ***/
 	SelectInSearchMenu(searchResults);
@@ -218,23 +223,19 @@ void ClientHandler::DeleteCltUsingPtr(Client* client)
 void ClientHandler::ShowAllCltInfoMenu()
 {
 	/*** 전체 고객 조회 메뉴 ***/
-	system("cls");
-	cout << LINE80 << endl;
-	cout << "\t\t\t\t전체 고객 조회" << endl;
-	cout << LINE80 << endl;
-	cout << setw(10) << left << "번호";
-	cout << setw(8) << left << "고객ID";
-	cout << setw(10) << left << "이름";
-	cout << setw(20) << left << "전화번호";
-	cout << setw(30) << left << "주소" << endl;
-	cout << LINE80 << endl;
-	ShowAllCltInfo();
-	cout << LINE80 << endl;
 
 	/*** 전체 고객 순서대로 가져오기 ***/
 	vector<Client*> allClients;
 	for (auto i = clientList.begin(); i != clientList.end(); i++)
 		allClients.push_back(i->second);
+
+	/*** 전체 고객 정보 출력 ***/
+	system("cls");
+	cout << LINE80 << endl;
+	cout << "\t\t\t\t전체 고객 조회" << endl;
+	ShowSearchResults(allClients);
+	cout << "\n>> 총 " << allClients.size() << "명의 고객\n" << endl;
+	cout << LINE80 << endl;	
 
 	/*** 선택 메뉴 진입 ***/
 	SelectInSearchMenu(allClients);
@@ -258,21 +259,6 @@ void ClientHandler::SelectInSearchMenu(vector<Client*>& list)
 	system("cls");
 }
 
-void ClientHandler::ShowAllCltInfo() const
-{
-	/*** 전체 고객 출력 ***/
-	int cnt = 1;
-	for (auto i = clientList.begin(); i != clientList.end(); i++) {
-		cout << setw(2) << left << "# ";
-		cout << setw(4) << right << cnt;
-		cout << "    ";
-		i->second->ShowCltInfo();
-		cout << '\n';
-		cnt++;
-	}
-	cout << "\n>> 총 " << clientList.size() << "명의 고객\n" << endl;
-}
-
 Client* ClientHandler::SearchCltUsingId(int id) const
 {
 	/*** 고객ID로 검색 ***/
@@ -290,7 +276,7 @@ vector<Client*> ClientHandler::SearchCltUsingName(string name) const
 	vector<Client*> searchResults;	
 
 	for (auto i = clientList.begin(); i != clientList.end(); i++) {
-		if (name == i->second->GetCltName())
+		if(i->second->GetCltName().find(name) != -1)
 			searchResults.push_back(i->second);
 	}
 	
@@ -321,11 +307,8 @@ void ClientHandler::ShowSearchResult(Client* client) const
 
 void ClientHandler::ShowSearchResults(vector<Client*>& searchResults) const
 {
-	/*** 이름으로 검색한 결과들 출력 ***/
-	int cnt = 1;
-	system("cls");
-	cout << LINE80 << endl;
-	cout << "\t\t\t\t검색 결과" << endl;
+	/*** 검색한 결과들 출력 ***/
+	int cnt = 1;	
 	cout << LINE80 << endl;
 	cout << setw(10) << left << "번호";
 	cout << setw(8) << left << "고객ID";
@@ -333,6 +316,7 @@ void ClientHandler::ShowSearchResults(vector<Client*>& searchResults) const
 	cout << setw(20) << left << "전화번호";
 	cout << setw(30) << left << "주소" << endl;
 	cout << LINE80 << endl;
+
 	for (auto i = searchResults.begin(); i != searchResults.end(); i++) {
 		cout << setw(2) << left << "# ";
 		cout << setw(4) << right << cnt;
@@ -341,8 +325,6 @@ void ClientHandler::ShowSearchResults(vector<Client*>& searchResults) const
 		cout << '\n';
 		cnt++;
 	}
-	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
-	cout << LINE80 << endl;
 }
 
 int ClientHandler::MakeClientId()
@@ -380,4 +362,52 @@ vector<string> ClientHandler::parseCSV(istream& file, char delimiter)
 		}
 	}
 	return row;
+}
+
+string ClientHandler::GetPhoneNumber()
+{
+	/*** 올바른 전화번호 입력받기 ***/
+	string phoneNum;
+
+	cout << "전화번호를 입력하세요: ";
+	while (1) {
+		cin >> phoneNum;
+		if (IsValidPhoneNumber(phoneNum))
+			return phoneNum;
+		else
+			cout << "올바르지 않은 전화번호입니다. 다시 입력하세요: ";
+	}
+}
+
+bool ClientHandler::IsValidPhoneNumber(string phoneNumber)
+{
+	/*** 올바른 전화번호인지 검사 ***/
+	string num[3];
+	int dash1, dash2;
+
+	dash1 = phoneNumber.find("-");
+	dash2 = phoneNumber.find("-", dash1 + 1);
+
+	num[0] = phoneNumber.substr(0, dash1);
+	num[1] = phoneNumber.substr(dash1 + 1, dash2 - dash1 - 1);
+	num[2] = phoneNumber.substr(dash2 + 1, phoneNumber.size() - dash2 - 1);
+
+	if (num[0] != "02" && num[0] != "031"
+		&& num[0] != "032" && num[0] != "033"
+		&& num[0] != "041" && num[0] != "042"
+		&& num[0] != "043" && num[0] != "044"
+		&& num[0] != "051" && num[0] != "052"
+		&& num[0] != "053" && num[0] != "054"
+		&& num[0] != "055" && num[0] != "061"
+		&& num[0] != "062" && num[0] != "063"
+		&& num[0] != "064" && num[0] != "011"
+		&& num[0] != "016" && num[0] != "017"
+		&& num[0] != "018" && num[0] != "019" && num[0] != "010")
+		return false;
+
+	for (int i = 1; i < 3; i++)
+		if (false == !num[i].empty() && num[i].find_first_not_of("0123456789") == string::npos)
+			return false;
+
+	return true;
 }

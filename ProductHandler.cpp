@@ -69,14 +69,14 @@ void ProductHandler::AddProdMenu()
 	cout << LINE80 << endl;
 	cout << "\t\t\t\t상품 등록" << endl;
 	cout << LINE80 << endl;
-	cout << "상품ID: ";
+	cout << "상품ID를 입력하세요: ";
 	id = MakeProdId();
 	cout << "상품종류(1. 치과장비  2. 치과재료  3. 위생용품): ";
 	classif = GetInt::GetInteger(1, 3);
-	cout << "상품명: ";	cin >> name;
-	cout << "재고수량: ";
+	cout << "상품명을 입력하세요: ";	cin >> name;
+	cout << "재고수량을 입력하세요: ";
 	stock = GetInt::GetInteger();
-	cout << "가격: ";
+	cout << "가격을 입력하세요: ";
 	price = GetInt::GetInteger();
 	Product* newProduct = new Product(id, classif, name, stock, price);
 	productList.insert({ id, newProduct });
@@ -257,8 +257,14 @@ void ProductHandler::SearchProdUsingNameMenu()
 
 	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchProdUsingName(name);
+
 	/*** 검색 결과 출력 ***/
+	system("cls");
+	cout << LINE80 << endl;
+	cout << "\t\t\t\t검색 결과" << endl;
 	ShowSearchResults(searchResults);
+	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+	cout << LINE80 << endl;
 
 	/*** 선택 메뉴 진입 ***/
 	SelectInSearchMenu(searchResults);
@@ -270,7 +276,7 @@ vector<Product*> ProductHandler::SearchProdUsingName(string name) const
 	vector<Product*> searchResults;
 
 	for (auto i = productList.begin(); i != productList.end(); i++) {
-		if (name == i->second->GetProdName())
+		if (i->second->GetProdName().find(name) != -1)
 			searchResults.push_back(i->second);
 	}
 
@@ -280,10 +286,7 @@ vector<Product*> ProductHandler::SearchProdUsingName(string name) const
 void ProductHandler::ShowSearchResults(vector<Product*>& searchResults) const
 {
 	/*** 상품명으로 검색한 결과들 출력 ***/
-	int cnt = 1;
-	system("cls");
-	cout << LINE80 << endl;
-	cout << "\t\t\t\t검색 결과" << endl;
+	int cnt = 1;	
 	cout << LINE80 << endl;
 	cout << setw(10) << left << "번호";
 	cout << setw(8) << left << "상품ID";
@@ -292,6 +295,7 @@ void ProductHandler::ShowSearchResults(vector<Product*>& searchResults) const
 	cout << setw(10) << left << "재고수량";
 	cout << setw(10) << left << "가격" << endl;
 	cout << LINE80 << endl;
+
 	for (auto i = searchResults.begin(); i != searchResults.end(); i++) {
 		cout << setw(2) << left << "# ";
 		cout << setw(4) << right << cnt;
@@ -299,9 +303,7 @@ void ProductHandler::ShowSearchResults(vector<Product*>& searchResults) const
 		(*i)->ShowProdInfo();
 		cout << '\n';
 		cnt++;
-	}
-	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
-	cout << LINE80 << endl;
+	}	
 }
 
 void ProductHandler::SelectInSearchMenu(vector<Product*>& list)
@@ -333,8 +335,14 @@ void ProductHandler::SearchProdUsingClasMenu()
 
 	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchProdUsingClas(classif);
+
 	/*** 검색 결과 출력 ***/
+	system("cls");
+	cout << LINE80 << endl;
+	cout << "\t\t\t\t검색 결과" << endl;
 	ShowSearchResults(searchResults);
+	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+	cout << LINE80 << endl;
 
 	/*** 선택 메뉴 진입 ***/
 	SelectInSearchMenu(searchResults);
@@ -356,47 +364,27 @@ vector<Product*> ProductHandler::SearchProdUsingClas(int classif) const
 void ProductHandler::ShowAllProdInfoMenu()
 {
 	/*** 전체 상품 조회 메뉴 ***/
-	system("cls");
-	cout << LINE80 << endl;
-	cout << "\t\t\t\t전체 상품 조회" << endl;
-	cout << LINE80 << endl;
-	cout << setw(10) << left << "번호";
-	cout << setw(8) << left << "상품ID";
-	cout << setw(10) << left << "상품종류";
-	cout << setw(24) << left << "상품명";
-	cout << setw(10) << left << "재고수량";
-	cout << setw(10) << left << "가격" << endl;
-	cout << LINE80 << endl;
-	ShowAllProdInfo();
-	cout << LINE80 << endl;
 
 	/*** 전체 상품 순서대로 가져오기 ***/
 	vector<Product*> allProducts;
 	for (auto i = productList.begin(); i != productList.end(); i++)
 		allProducts.push_back(i->second);
 
+	/*** 전체 상품 정보 출력 ***/
+	system("cls");
+	cout << LINE80 << endl;
+	cout << "\t\t\t\t전체 상품 조회" << endl;
+	ShowSearchResults(allProducts);
+	cout << "\n>> 총 " << productList.size() << "개의 상품\n" << endl;
+	cout << LINE80 << endl;	
+
 	/*** 선택 메뉴 진입 ***/
 	SelectInSearchMenu(allProducts);
 }
 
-void ProductHandler::ShowAllProdInfo() const
-{
-	/*** 전체 상품 출력 ***/
-	int cnt = 1;
-	for (auto i = productList.begin(); i != productList.end(); i++) {
-		cout << setw(2) << left << "# ";
-		cout << setw(4) << right << cnt;
-		cout << "    ";
-		i->second->ShowProdInfo();
-		cout << '\n';
-		cnt++;
-	}
-	cout << "\n>> 총 " << productList.size() << "개의 상품\n" << endl;
-}
-
 int ProductHandler::MakeProdId()
 {
-	/*** 중복되지 않는 ID 생성 ***/
+	/*** 상품ID 중복 검사 ***/
 	int id;
 	while (1) {
 		id = GetInt::GetInteger();
