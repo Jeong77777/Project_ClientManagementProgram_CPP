@@ -178,9 +178,9 @@ void OrderHandler::ShowSearchResult(Order* order) const
 {
 	/*** 주문번호로 검색한 결과 출력 ***/
 	system("cls");
-	cout << LINE80 << endl;
+	cout << LINE90 << endl;
 	cout << "\t\t\t\t검색 결과" << endl;
-	cout << LINE80 << endl;
+	cout << LINE90 << endl;
 	cout << setw(16) << left << "주문번호";
 	cout << setw(15) << left << "주문일자";
 	cout << setw(30) << left << "상품ID(상품명)";
@@ -189,7 +189,7 @@ void OrderHandler::ShowSearchResult(Order* order) const
 	cout << setw(16) << left << "고객ID(이름)";
 	cout << setw(15) << left << "전화번호";
 	cout << setw(30) << left << "주소" << endl;
-	cout << LINE80 << endl;
+	cout << LINE90 << endl;
 	
 	if (order != nullptr) {
 		ShowOrderInfoRow1(order);
@@ -254,13 +254,31 @@ void OrderHandler::OrderDeleteModifyMenu(Order* order)
 {
 	/*** 삭제/변경 메뉴 ***/
 	int sel;
-	cout << LINE80 << endl;
+	cout << LINE90 << endl;
 	cout << "1. 삭제\t\t2. 변경\t\t3. 나가기" << endl;
-	cout << LINE80 << endl;
+	cout << LINE90 << endl;
 	cout << "메뉴를 선택하세요: ";
 	sel = GetInt::GetInteger(1, 3);
 
 	if (sel == 1) {
+		Product* product = prodManager.SearchProdUsingId(order->GetOrderProdID());
+		string input;
+		
+		if (product != nullptr) {
+			cout << "삭제한 주문내역에 대한 상품재고를 다시 추가하시겠습니까?(y/n): ";
+			while (1) {
+				cin >> input;
+				if (input == "y" || input == "Y") {
+					product->SetProdStock(product->GetProdStock() + order->GetOrderProdNum());
+					break;
+				}
+				else if (input == "n" || input == "N")
+					break;
+				else
+					cout << "다시 입력하세요: ";
+			}
+		}
+
 		DeleteOrderUsingPtr(order);
 		cout << "\n삭제 완료!\n" << endl;
 		cout << "메뉴로 돌아가기 (0): ";
@@ -284,13 +302,13 @@ void OrderHandler::ModifyOrderMenu(Order* order)
 {
 	/*** 구매 내역 변경 메뉴 ***/
 	int sel;
-	cout << LINE80 << endl;
+	cout << LINE90 << endl;
 	cout << "1. 주문일자       2. 고객ID       3. 상품ID       4. 주문수량       5. 나가기" << endl;
-	cout << LINE80 << endl;
+	cout << LINE90 << endl;
 	cout << "변경할 항목을 선택하세요: ";
 	sel = GetInt::GetInteger(1, 5);
 
-	cout << LINE80 << endl;
+	cout << LINE90 << endl;
 	if (sel == 1) {
 		string date;
 		cout << "주문일자를 입력하세요: ";
