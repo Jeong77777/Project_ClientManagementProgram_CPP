@@ -66,26 +66,49 @@ void ProductHandler::AddProdMenu()
 	int price;    // 상품가격
 
 	/*** 상품 정보 입력 받고 등록 ***/
-	cout << LINE80 << endl;
-	cout << "\t\t\t\t상품 등록" << endl;
-	cout << LINE80 << endl;
-	cout << "상품ID를 입력하세요: ";
-	id = MakeProdId();
-	cout << "상품종류(1. 치과장비  2. 치과재료  3. 위생용품): ";
-	classif = GetInt::GetInteger(1, 3);
-	cout << "상품명을 입력하세요: ";	cin >> name;
-	cout << "재고수량을 입력하세요: ";
-	stock = GetInt::GetInteger();
-	cout << "가격을 입력하세요: ";
-	price = GetInt::GetInteger();
-	Product* newProduct = new Product(id, classif, name, stock, price);
-	productList.insert({ id, newProduct });
-	cout << "\n상품 등록 완료!\n" << endl;
+	try {
+		cout << LINE80 << endl;
+		cout << "\t\t\t\t상품 등록" << endl;
+		cout << LINE80 << endl;
+		cout << "나가시려면 -1을 입력하세요.\n" << endl;
+		cout << "상품ID를 입력하세요: ";
+		id = MakeProdId();
+		classif = GetProdClasif();
+		cout << "상품명을 입력하세요: ";	cin >> name;
+		if (name == "-1") throw - 1;
+		cout << "재고수량을 입력하세요: ";
+		stock = GetInt::GetInteger(-1, INT_MAX);
+		cout << "가격을 입력하세요: ";
+		price = GetInt::GetInteger(-1, INT_MAX);
+		if (price == -1) throw - 1;
+		Product* newProduct = new Product(id, classif, name, stock, price);
+		productList.insert({ id, newProduct });
+		cout << "\n상품 등록 완료!\n" << endl;
+	}
+	catch (int cancel) {
+		if (cancel == -1)
+			cout << "\n등록을 취소합니다.\n" << endl;
+	}
 
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
 
 	system("cls");
+}
+
+int ProductHandler::GetProdClasif()
+{
+	int classif;
+	cout << "상품종류(1. 치과장비  2. 치과재료  3. 위생용품): ";
+	while (1) {
+		classif = GetInt::GetInteger();
+		if (classif == -1)
+			throw - 1;
+		else if (classif >= 1 && classif <= 3)
+			return classif;
+		else
+			cout << "다시 입력하세요: ";
+	}
 }
 
 void ProductHandler::SearchProdMenu()
@@ -124,8 +147,12 @@ void ProductHandler::SearchProdUsingIdMenu()
 	/*** 상품ID로 검색 ***/
 	int id;
 	Product* product;
-	cout << "상품ID를 입력하세요: ";
+	cout << "상품ID를 입력하세요(나가기 -1): ";
 	id = GetInt::GetInteger();
+	if (id == -1) {
+		system("cls");
+		return;
+	}	
 	product = SearchProdUsingId(id);
 	ShowSearchResult(product);
 
@@ -205,36 +232,48 @@ void ProductHandler::ModifyProdMenu(Product* product)
 	cout << LINE80 << endl;
 	cout << "변경할 항목을 선택하세요: ";
 	sel = GetInt::GetInteger(1, 5);
-
 	cout << LINE80 << endl;
-	if (sel == 1) {
-		int classif;
-		cout << "상품종류(1. 치과장비  2. 치과재료  3. 위생용품): ";
-		classif = GetInt::GetInteger(1, 3);
-		product->SetProdClassif(classif);
-	}
-	else if (sel == 2) {
-		string name;
-		cout << "상품명을 입력하세요: ";
-		cin >> name;
-		product->SetProdName(name);
-	}
-	else if (sel == 3) {
-		int stock;
-		cout << "재고수량을 입력하세요: ";
-		stock = GetInt::GetInteger();
-		product->SetProdStock(stock);
-	}
-	else if (sel == 4) {
-		int price;
-		cout << "가격을 입력하세요: ";
-		price = GetInt::GetInteger();
-		product->SetProdPrice(price);
-	}
-	else
-		return;	
+	try {
+		if (sel == 1 || sel == 2 || sel == 3 || sel == 4) {
+			cout << "나가시려면 -1을 입력하세요." << endl;
+			if (sel == 1) {
+				int classif;
+				classif = GetProdClasif();
+				if (classif == -1) throw - 1;
+				product->SetProdClassif(classif);
+			}
+			else if (sel == 2) {
+				string name;
+				cout << "상품명을 입력하세요: ";
+				cin >> name;
+				if (name == "-1") throw - 1;
+				product->SetProdName(name);
+			}
+			else if (sel == 3) {
+				int stock;
+				cout << "재고수량을 입력하세요: ";
+				stock = GetInt::GetInteger(-1, INT_MAX);
+				if (stock == -1) throw - 1;
+				product->SetProdStock(stock);
+			}
+			else if (sel == 4) {
+				int price;
+				cout << "가격을 입력하세요: ";
+				price = GetInt::GetInteger(-1, INT_MAX);
+				if (price == -1) throw - 1;
+				product->SetProdPrice(price);
+			}
+		}		
+		else
+			return;
 
-	cout << "\n변경 완료!\n" << endl;
+		cout << "\n변경 완료!\n" << endl;
+	}
+	catch (int cancel) {
+		if (cancel == -1)
+			cout << "\n변경을 취소합니다.\n" << endl;
+	}
+	
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
 }
@@ -253,7 +292,11 @@ void ProductHandler::SearchProdUsingNameMenu()
 	string name;
 	vector<Product*> searchResults;
 
-	cout << "상품명을 입력하세요: "; cin >> name;
+	cout << "상품명을 입력하세요(나가기 -1): "; cin >> name;
+	if (name == "-1") {
+		system("cls");
+		return;
+	}
 
 	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchProdUsingName(name);
@@ -330,22 +373,29 @@ void ProductHandler::SearchProdUsingClasMenu()
 	int classif;
 	vector<Product*> searchResults;
 
-	cout << "상품종류(1. 치과장비  2. 치과재료  3. 위생용품): ";
-	classif = GetInt::GetInteger(1, 3);
+	try {
+		cout << "나가시려면 -1을 입력하세요." << endl;
+		classif = GetProdClasif();
+		/*** 검색 결과 가져오기 ***/
+		searchResults = SearchProdUsingClas(classif);
 
-	/*** 검색 결과 가져오기 ***/
-	searchResults = SearchProdUsingClas(classif);
+		/*** 검색 결과 출력 ***/
+		system("cls");
+		cout << LINE80 << endl;
+		cout << "\t\t\t\t검색 결과" << endl;
+		ShowSearchResults(searchResults);
+		cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+		cout << LINE80 << endl;
 
-	/*** 검색 결과 출력 ***/
-	system("cls");
-	cout << LINE80 << endl;
-	cout << "\t\t\t\t검색 결과" << endl;
-	ShowSearchResults(searchResults);
-	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
-	cout << LINE80 << endl;
-
-	/*** 선택 메뉴 진입 ***/
-	SelectInSearchMenu(searchResults);
+		/*** 선택 메뉴 진입 ***/
+		SelectInSearchMenu(searchResults);
+	}
+	catch (int cancel) {
+		if (cancel == -1) {
+			system("cls");
+			return;
+		}		
+	}	
 }
 
 vector<Product*> ProductHandler::SearchProdUsingClas(int classif) const
@@ -389,7 +439,9 @@ int ProductHandler::MakeProdId()
 	while (1) {
 		id = GetInt::GetInteger();
 
-		if (id < 1000 || id > 9999) {
+		if (id == -1)
+			throw - 1;
+		else if (id < 1000 || id > 9999) {
 			cout << "1001부터 9999까지의 숫자를 입력하세요: ";
 		}
 		else if (productList.find(id) != productList.end())

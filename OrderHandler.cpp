@@ -66,21 +66,27 @@ void OrderHandler::AddOrderMenu()
 	int prodNum;	// 주문수량
 
 	/*** 주문 정보 입력 받기 ***/
-	cout << LINE80 << endl;
-	cout << "\t\t\t\t주문 내역 등록" << endl;
-	cout << LINE80 << endl;
+	try {
+		cout << LINE80 << endl;
+		cout << "\t\t\t\t주문 내역 등록" << endl;
+		cout << LINE80 << endl;
+		cout << "나가시려면 -1을 입력하세요.\n" << endl;
+		date = GetDateString();
+		cltID = GetCltID();
+		prodID = GetProdID();
+		prodNum = GetProdNum(prodID);
+		num = MakeOrderNum();
 
-	date = GetDateString();
-	cltID = GetCltID();
-	prodID = GetProdID();
-	prodNum = GetProdNum(prodID);	
-	num = MakeOrderNum();
-
-	/*** 주문 정보 등록 ***/
-	Order* newOrder = new Order(num, date, cltID, prodID, prodNum);
-	orderList.insert({ num, newOrder });
-	cout << "\n주문 내역 등록 완료!" << endl;
-	cout << "주문번호는 " << num << "입니다.\n" << endl;
+		/*** 주문 정보 등록 ***/
+		Order* newOrder = new Order(num, date, cltID, prodID, prodNum);
+		orderList.insert({ num, newOrder });
+		cout << "\n주문 내역 등록 완료!" << endl;
+		cout << "주문번호는 " << num << "입니다.\n" << endl;
+	}
+	catch (int cancel) {
+		if (cancel == -1)
+			cout << "\n등록을 취소합니다.\n" << endl;
+	}	
 
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
@@ -97,8 +103,9 @@ int OrderHandler::GetProdNum(int prodID)
 
 	cout << "주문수량을 입력하세요" << "(재고: " << stock << "): ";
 
-	while (1) {		
-		prodNum = GetInt::GetInteger();
+	while (1) {
+		prodNum = GetInt::GetInteger(-1, INT_MAX);
+		if (prodNum == -1) throw - 1;
 		if (stock >= prodNum) {
 			product->SetProdStock(stock - prodNum);
 			return prodNum;
@@ -147,8 +154,12 @@ void OrderHandler::SearchOrderUsingNumMenu()
 	/*** 주문번호로 검색 ***/
 	int num;
 	Order* order;
-	cout << "주문번호를 입력하세요: ";
+	cout << "주문번호를 입력하세요(나가기 -1): ";
 	num = GetInt::GetInteger();
+	if (num == -1) {
+		system("cls");
+		return;
+	}
 	order = SearchOrderUsingNum(num);
 	ShowSearchResult(order);
 
@@ -309,27 +320,35 @@ void OrderHandler::ModifyOrderMenu(Order* order)
 	sel = GetInt::GetInteger(1, 5);
 
 	cout << LINE90 << endl;
-	if (sel == 1) {
-		string date;
-		cout << "주문일자를 입력하세요: ";
-		date = GetDateString();
-		order->SetOrderDate(date);
-	}
-	else if (sel == 2) {
-		int cltID;
-		cltID = GetCltID();
-		order->SetOrderCltID(cltID);
-	}
-	else if (sel == 3) {
-		ChangeProdID(order);
-	}
-	else if (sel == 4) {
-		ChangeProdNum(order);
-	}
-	else
-		return;
+	try {
+		if (sel == 1 || sel == 2 || sel == 3 || sel == 4) {
+			cout << "나가시려면 -1을 입력하세요." << endl;
+			if (sel == 1) {
+				string date;
+				date = GetDateString();
+				order->SetOrderDate(date);
+			}
+			else if (sel == 2) {
+				int cltID;
+				cltID = GetCltID();
+				order->SetOrderCltID(cltID);
+			}
+			else if (sel == 3) {
+				ChangeProdID(order);
+			}
+			else if (sel == 4) {
+				ChangeProdNum(order);
+			}			
+		}
+		else
+			return;
 
-	cout << "\n변경 완료!\n" << endl;
+		cout << "\n변경 완료!\n" << endl;
+	}
+	catch (int cancel) {
+		if (cancel == -1)
+			cout << "\n변경을 취소합니다.\n" << endl;
+	}	
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
 }
@@ -341,6 +360,7 @@ void OrderHandler::ChangeProdID(Order* order)
 	int oldProdNum = order->GetOrderProdNum();
 	Product* oldProduct = prodManager.SearchProdUsingId(oldProdID);
 	int newProdID = GetProdID();
+	if (newProdID == -1) throw - 1;
 	int newProdNum = GetProdNum(newProdID);
 	order->SetOrderProdID(newProdID);
 	order->SetOrderProdNum(newProdNum);
@@ -372,7 +392,8 @@ void OrderHandler::ChangeProdNum(Order* order)
 
 	cout << "주문수량을 입력하세요" << "(최대: " << stock + oldProdNum << "): ";
 	while (1) {
-		newProdNum = GetInt::GetInteger();
+		newProdNum = GetInt::GetInteger(-1, INT_MAX);
+		if (newProdNum == -1) throw - 1;
 		if (stock + oldProdNum >= newProdNum) {
 			product->SetProdStock(stock + oldProdNum - newProdNum);
 			order->SetOrderProdNum(newProdNum);
@@ -388,22 +409,31 @@ void OrderHandler::SearchOrderUsingCltIdMenu()
 	/*** 고객ID로 조회 메뉴 ***/
 	int cltID;
 	vector<Order*> searchResults;
+	
+	try {
+		cout << "나가시려면 -1을 입력하세요." << endl;
+		cltID = GetCltID();
 
-	cltID = GetCltID();	
+		/*** 검색 결과 가져오기 ***/
+		searchResults = SearchOrderUsingCltId(cltID);
 
-	/*** 검색 결과 가져오기 ***/
-	searchResults = SearchOrderUsingCltId(cltID);
+		/*** 검색 결과 출력 ***/
+		system("cls");
+		cout << LINE90 << endl;
+		cout << "\t\t\t\t검색 결과" << endl;
+		ShowSearchResults(searchResults);
+		cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+		cout << LINE90 << endl;
 
-	/*** 검색 결과 출력 ***/
-	system("cls");
-	cout << LINE90 << endl;
-	cout << "\t\t\t\t검색 결과" << endl;
-	ShowSearchResults(searchResults);
-	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
-	cout << LINE90 << endl;
-
-	/*** 선택 메뉴 진입 ***/
-	SelectInSearchMenu(searchResults);
+		/*** 선택 메뉴 진입 ***/
+		SelectInSearchMenu(searchResults);
+	}
+	catch (int cancel) {
+		if (cancel == -1) {
+			system("cls");
+			return;
+		}
+	}	
 }
 
 vector<Order*> OrderHandler::SearchOrderUsingCltId(int cltID) const
@@ -472,21 +502,30 @@ void OrderHandler::SearchOrderUsingProdIdMenu()
 	int prodID;
 	vector<Order*> searchResults;
 
-	prodID = GetProdID();
+	try {
+		cout << "나가시려면 -1을 입력하세요." << endl;
+		prodID = GetProdID();
 
-	/*** 검색 결과 가져오기 ***/
-	searchResults = SearchOrderUsingProdId(prodID);
+		/*** 검색 결과 가져오기 ***/
+		searchResults = SearchOrderUsingProdId(prodID);
 
-	/*** 검색 결과 출력 ***/
-	system("cls");
-	cout << LINE90 << endl;
-	cout << "\t\t\t\t검색 결과" << endl;
-	ShowSearchResults(searchResults);
-	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
-	cout << LINE90 << endl;
+		/*** 검색 결과 출력 ***/
+		system("cls");
+		cout << LINE90 << endl;
+		cout << "\t\t\t\t검색 결과" << endl;
+		ShowSearchResults(searchResults);
+		cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+		cout << LINE90 << endl;
 
-	/*** 선택 메뉴 진입 ***/
-	SelectInSearchMenu(searchResults);
+		/*** 선택 메뉴 진입 ***/
+		SelectInSearchMenu(searchResults);
+	}
+	catch (int cancel) {
+		if (cancel == -1) {
+			system("cls");
+			return;
+		}
+	}	
 }
 
 vector<Order*> OrderHandler::SearchOrderUsingProdId(int prodID) const
@@ -508,21 +547,30 @@ void OrderHandler::SearchOrderUsingDateMenu()
 	string date;
 	vector<Order*> searchResults;
 
-	date = GetDateString();
+	try {
+		cout << "나가시려면 -1을 입력하세요." << endl;
+		date = GetDateString();
 
-	/*** 검색 결과 가져오기 ***/
-	searchResults = SearchOrderUsingDate(date);
+		/*** 검색 결과 가져오기 ***/
+		searchResults = SearchOrderUsingDate(date);
 
-	/*** 검색 결과 출력 ***/
-	system("cls");
-	cout << LINE90 << endl;
-	cout << "\t\t\t\t검색 결과" << endl;
-	ShowSearchResults(searchResults);
-	cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
-	cout << LINE90 << endl;
+		/*** 검색 결과 출력 ***/
+		system("cls");
+		cout << LINE90 << endl;
+		cout << "\t\t\t\t검색 결과" << endl;
+		ShowSearchResults(searchResults);
+		cout << "\n>> " << searchResults.size() << "개의 검색 결과\n" << endl;
+		cout << LINE90 << endl;
 
-	/*** 선택 메뉴 진입 ***/
-	SelectInSearchMenu(searchResults);
+		/*** 선택 메뉴 진입 ***/
+		SelectInSearchMenu(searchResults);
+	}
+	catch (int cancel) {
+		if (cancel == -1) {
+			system("cls");
+			return;
+		}
+	}	
 }
 
 vector<Order*> OrderHandler::SearchOrderUsingDate(string date) const
@@ -570,6 +618,7 @@ string OrderHandler::GetDateString()
 
 	while (1) {
 		intDate = GetInt::GetInteger();
+		if (intDate == -1) throw - 1;
 		year = intDate / 10000;
 		month = (intDate - (year * 10000)) / 100;
 		day = intDate % 100;
@@ -594,6 +643,7 @@ int OrderHandler::GetCltID()
 	cout << "고객ID를 입력하세요: ";
 	while (1) {
 		id = GetInt::GetInteger();
+		if (id == -1) throw - 1;
 		if (cltManager.SearchCltUsingId(id) != nullptr)
 			return id;
 		else
@@ -609,6 +659,7 @@ int OrderHandler::GetProdID()
 	cout << "상품ID를 입력하세요: ";
 	while (1) {
 		id = GetInt::GetInteger();
+		if (id == -1)throw - 1;
 		if (prodManager.SearchProdUsingId(id) != nullptr)
 			return id;
 		else

@@ -30,6 +30,7 @@ public:
 	vector<Product*> SearchProdUsingClas(int) const;
 
 	int MakeProdId();
+	int GetProdClasif();
 	vector<string> parseCSV(istream&, char);
 
 private:

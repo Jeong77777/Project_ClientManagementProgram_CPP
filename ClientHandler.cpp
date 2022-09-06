@@ -62,19 +62,28 @@ void ClientHandler::AddClientMenu()
 	string address;
 
 	/*** 신규 고객 정보 입력 받기 ***/
-	cout << LINE80 << endl;
-	cout << "\t\t\t\t신규 고객 등록" << endl;
-	cout << LINE80 << endl;
-	cout << "이름을 입력하세요: ";		cin >> name;
-	phoneNumber = GetPhoneNumber();
-	cout << "주소를 입력하세요: ";		cin.ignore();	getline(cin, address);
+	try {
+		cout << LINE80 << endl;
+		cout << "\t\t\t\t신규 고객 등록" << endl;
+		cout << LINE80 << endl;
+		cout << "나가시려면 -1을 입력하세요.\n" << endl;
+		cout << "이름을 입력하세요: ";		cin >> name;
+		if (name == "-1") throw -1;
+		phoneNumber = GetPhoneNumber();
+		cout << "주소를 입력하세요: ";		cin.ignore();	getline(cin, address);
+		if (address == "-1") throw -1;
 
-	/*** ID 생성 및 신규 고객 등록 ***/
-	int id = MakeClientId();
-	Client* newClient = new Client(id, name, phoneNumber, address);
-	clientList.insert({ id, newClient });
-	cout << "\n신규 고객 등록 완료!" << endl;
-	cout << "고객번호는 " << id << "입니다.\n" << endl;
+		/*** ID 생성 및 신규 고객 등록 ***/
+		int id = MakeClientId();
+		Client* newClient = new Client(id, name, phoneNumber, address);
+		clientList.insert({ id, newClient });
+		cout << "\n신규 고객 등록 완료!" << endl;
+		cout << "고객번호는 " << id << "입니다.\n" << endl;
+	}
+	catch(int cancel){
+		if (cancel == -1)
+			cout << "\n등록을 취소합니다.\n" << endl;
+	}	
 
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
@@ -115,8 +124,12 @@ void ClientHandler::SearchCltUsingIdMenu()
 	/*** 고객ID로 검색 ***/
 	int id;
 	Client* client;
-	cout << "고객ID를 입력하세요: ";
+	cout << "고객ID를 입력하세요(나가기 -1): ";
 	id = GetInt::GetInteger();
+	if (id == -1) {
+		system("cls");
+		return;
+	}
 	client = SearchCltUsingId(id);
 	ShowSearchResult(client);
 
@@ -161,30 +174,40 @@ void ClientHandler::ModifyClientMenu(Client* client)
 	cout << "1. 이름\t\t2. 전화번호\t\t3. 주소\t\t4. 나가기" << endl;
 	cout << LINE80 << endl;
 	cout << "변경할 항목을 선택하세요: ";
-	sel = GetInt::GetInteger(1, 4);
+	sel = GetInt::GetInteger(1, 4);	
+	cout << LINE80 << endl;	
+	try {
+		if (sel == 1 || sel == 2 || sel == 3) {
+			cout << "나가시려면 -1을 입력하세요." << endl;
+			if (sel == 1) {
+				string name;
+				cout << "이름을 입력하세요: ";
+				cin >> name;
+				if (name == "-1") throw -1;
+				client->SetCltName(name);
+			}
+			else if (sel == 2) {
+				string phone;
+				phone = GetPhoneNumber();
+				client->SetCltPhoneNumber(phone);
+			}
+			else if (sel == 3) {
+				string address;
+				cout << "주소를 입력하세요: ";		cin.ignore();	getline(cin, address);
+				if (address == "-1") throw -1;
+				client->SetCltAddress(address);
+			}
+		}
+		else
+			return;
 
-	cout << LINE80 << endl;
-	if (sel == 1) {
-		string name;
-		cout << "이름을 입력하세요: ";
-		cin >> name;
-		client->SetCltName(name);
+		cout << "\n변경 완료!\n" << endl;
 	}
-	else if (sel == 2) {
-		string phone;
-		phone = GetPhoneNumber();
-		client->SetCltPhoneNumber(phone);
+	catch(int cancel){
+		if (cancel == -1)
+			cout << "\n변경을 취소합니다.\n" << endl;
 	}
-	else if (sel == 3) {
-		string address;
-		cout << "주소를 입력하세요: ";		cin.ignore();	getline(cin, address);
-		client->SetCltAddress(address);
-	}
-	else
-		return;
 	
-	
-	cout << "\n변경 완료!\n" << endl;
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
 }
@@ -195,7 +218,11 @@ void ClientHandler::SearchCltUsingNameMenu()
 	string name;
 	vector<Client*> searchResults;
 
-	cout << "고객 이름을 입력하세요: "; cin >> name;
+	cout << "고객 이름을 입력하세요(나가기 -1): "; cin >> name;
+	if (name == "-1") {
+		system("cls");
+		return;
+	}
 
 	/*** 검색 결과 가져오기 ***/
 	searchResults = SearchCltUsingName(name);
@@ -372,7 +399,9 @@ string ClientHandler::GetPhoneNumber()
 	cout << "전화번호를 입력하세요(ex 010-XXXX-XXXX): ";
 	while (1) {
 		cin >> phoneNum;
-		if (IsValidPhoneNumber(phoneNum))
+		if (phoneNum == "-1")
+			throw - 1;
+		else if (IsValidPhoneNumber(phoneNum))
 			return phoneNum;
 		else
 			cout << "올바르지 않은 전화번호입니다. 다시 입력하세요: ";

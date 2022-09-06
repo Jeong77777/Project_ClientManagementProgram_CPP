@@ -28,7 +28,7 @@ int main()
 			genManager.OrderMenu();
 			break;
 		case 4:	//exit
-			return 0;			
+			return 0;	
 		}
 	}
 
