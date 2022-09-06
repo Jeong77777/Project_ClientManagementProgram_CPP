@@ -20,7 +20,7 @@ public:
 	void SetProdClassif(int&);
 
 	int GetProdStock() const;
-	void SetProdStock(int&);
+	void SetProdStock(int);
 
 	void ShowProdInfo() const;
 

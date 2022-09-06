@@ -48,7 +48,7 @@ int Product::GetProdStock() const
     return prodStock;
 }
 
-void Product::SetProdStock(int& stock)
+void Product::SetProdStock(int stock)
 {
     prodStock = stock;
 }

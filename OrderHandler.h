@@ -40,6 +40,9 @@ public:
 	bool CheckValidDate(int, int, int);
 	int GetCltID();
 	int GetProdID();
+	int GetProdNum(int);
+	void ChangeProdID(Order*);
+	void ChangeProdNum(Order*);
 	vector<string> parseCSV(istream&, char);
 
 private:

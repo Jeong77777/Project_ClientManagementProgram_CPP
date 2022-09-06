@@ -369,7 +369,7 @@ string ClientHandler::GetPhoneNumber()
 	/*** 올바른 전화번호 입력받기 ***/
 	string phoneNum;
 
-	cout << "전화번호를 입력하세요: ";
+	cout << "전화번호를 입력하세요(ex 010-XXXX-XXXX): ";
 	while (1) {
 		cin >> phoneNum;
 		if (IsValidPhoneNumber(phoneNum))

@@ -73,8 +73,7 @@ void OrderHandler::AddOrderMenu()
 	date = GetDateString();
 	cltID = GetCltID();
 	prodID = GetProdID();
-	cout << "주문 수량을 입력하세요: ";
-	prodNum = GetInt::GetInteger();
+	prodNum = GetProdNum(prodID);	
 	num = MakeOrderNum();
 
 	/*** 주문 정보 등록 ***/
@@ -87,6 +86,26 @@ void OrderHandler::AddOrderMenu()
 	GetInt::GetOnlyZero();
 
 	system("cls");
+}
+
+int OrderHandler::GetProdNum(int prodID)
+{
+	/*** 주문 수량 입력 받기 ***/
+	int prodNum;
+	Product* product = prodManager.SearchProdUsingId(prodID);
+	int stock = product->GetProdStock();
+
+	cout << "주문수량을 입력하세요" << "(재고: " << stock << "): ";
+
+	while (1) {		
+		prodNum = GetInt::GetInteger();
+		if (stock >= prodNum) {
+			product->SetProdStock(stock - prodNum);
+			return prodNum;
+		}			
+		else
+			cout << "재고가 부족합니다. 다시 입력하세요" << "(재고: " << stock << "): ";
+	}
 }
 
 void OrderHandler::SearchOrderMenu()
@@ -284,15 +303,10 @@ void OrderHandler::ModifyOrderMenu(Order* order)
 		order->SetOrderCltID(cltID);
 	}
 	else if (sel == 3) {
-		int prodID;
-		prodID = GetProdID();
-		order->SetOrderProdID(prodID);
+		ChangeProdID(order);
 	}
 	else if (sel == 4) {
-		int prodNum;
-		cout << "주문수량을 입력하세요: ";
-		prodNum = GetInt::GetInteger();
-		order->SetOrderProdNum(prodNum);
+		ChangeProdNum(order);
 	}
 	else
 		return;
@@ -300,6 +314,55 @@ void OrderHandler::ModifyOrderMenu(Order* order)
 	cout << "\n변경 완료!\n" << endl;
 	cout << "메뉴로 돌아가기 (0): ";
 	GetInt::GetOnlyZero();
+}
+
+void OrderHandler::ChangeProdID(Order* order)
+{
+	string input;
+	int oldProdID = order->GetOrderProdID();
+	int oldProdNum = order->GetOrderProdNum();
+	Product* oldProduct = prodManager.SearchProdUsingId(oldProdID);
+	int newProdID = GetProdID();
+	int newProdNum = GetProdNum(newProdID);
+	order->SetOrderProdID(newProdID);
+	order->SetOrderProdNum(newProdNum);
+
+	if (oldProduct == nullptr)
+		return;
+	else {
+		cout << "변경 전 상품에 대한 재고를 다시 추가하시겠습니까?(y/n): ";
+		while (1) {
+			cin >> input;
+			if (input == "y" || input == "Y") {				
+				oldProduct->SetProdStock(oldProduct->GetProdStock() + oldProdNum);
+				return;
+			}
+			else if (input == "n" || input == "N")
+				return;
+			else
+				cout << "다시 입력하세요: ";
+		}
+	}	
+}
+
+void OrderHandler::ChangeProdNum(Order* order)
+{
+	Product* product = prodManager.SearchProdUsingId(order->GetOrderProdID());
+	int stock = product->GetProdStock();
+	int oldProdNum = order->GetOrderProdNum();
+	int newProdNum;
+
+	cout << "주문수량을 입력하세요" << "(최대: " << stock + oldProdNum << "): ";
+	while (1) {
+		newProdNum = GetInt::GetInteger();
+		if (stock + oldProdNum >= newProdNum) {
+			product->SetProdStock(stock + oldProdNum - newProdNum);
+			order->SetOrderProdNum(newProdNum);
+			return;
+		}
+		else
+			cout << "재고가 부족합니다. 다시 입력하세요" << "(최대: " << stock + oldProdNum << "): ";
+	}
 }
 
 void OrderHandler::SearchOrderUsingCltIdMenu()
