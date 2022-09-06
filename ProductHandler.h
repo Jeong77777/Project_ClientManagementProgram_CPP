@@ -29,8 +29,11 @@ public:
 	void ShowSearchResults(vector<Product*>&) const;
 	vector<Product*> SearchProdUsingClas(int) const;
 
-	int MakeProdId();
+	int GetProdId();
+	string GetName();	
 	int GetProdClasif();
+	int GetStock();
+	int GetPrice();
 	vector<string> parseCSV(istream&, char);
 
 private:

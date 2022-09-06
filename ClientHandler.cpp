@@ -57,21 +57,16 @@ void ClientHandler::ShowClientMenu() const
 void ClientHandler::AddClientMenu()
 {
 	/*** 신규 고객 등록 메뉴 ***/
-	string name;
-	string phoneNumber;
-	string address;
-
+	
 	/*** 신규 고객 정보 입력 받기 ***/
 	try {
 		cout << LINE80 << endl;
 		cout << "\t\t\t\t신규 고객 등록" << endl;
 		cout << LINE80 << endl;
 		cout << "나가시려면 -1을 입력하세요.\n" << endl;
-		cout << "이름을 입력하세요: ";		cin >> name;
-		if (name == "-1") throw -1;
-		phoneNumber = GetPhoneNumber();
-		cout << "주소를 입력하세요: ";		cin.ignore();	getline(cin, address);
-		if (address == "-1") throw -1;
+		string name = GetName();
+		string phoneNumber = GetPhoneNumber();
+		string address = GetAddress();
 
 		/*** ID 생성 및 신규 고객 등록 ***/
 		int id = MakeClientId();
@@ -90,6 +85,8 @@ void ClientHandler::AddClientMenu()
 
 	system("cls");
 }
+
+
 
 void ClientHandler::SearchClientMenu()
 {
@@ -180,21 +177,15 @@ void ClientHandler::ModifyClientMenu(Client* client)
 		if (sel == 1 || sel == 2 || sel == 3) {
 			cout << "나가시려면 -1을 입력하세요." << endl;
 			if (sel == 1) {
-				string name;
-				cout << "이름을 입력하세요: ";
-				cin >> name;
-				if (name == "-1") throw -1;
+				string name = GetName();
 				client->SetCltName(name);
 			}
 			else if (sel == 2) {
-				string phone;
-				phone = GetPhoneNumber();
+				string phone = GetPhoneNumber();
 				client->SetCltPhoneNumber(phone);
 			}
 			else if (sel == 3) {
-				string address;
-				cout << "주소를 입력하세요: ";		cin.ignore();	getline(cin, address);
-				if (address == "-1") throw -1;
+				string address = GetAddress();
 				client->SetCltAddress(address);
 			}
 		}
@@ -406,6 +397,28 @@ string ClientHandler::GetPhoneNumber()
 		else
 			cout << "올바르지 않은 전화번호입니다. 다시 입력하세요: ";
 	}
+}
+
+string ClientHandler::GetName()
+{
+	string name;
+	cout << "이름을 입력하세요: ";
+	cin.ignore();	getline(cin, name);
+	if (name == "-1")
+		throw - 1;
+	else
+		return name;
+}
+
+string ClientHandler::GetAddress()
+{
+	string address;
+	cout << "주소를 입력하세요: ";
+	cin.ignore();	getline(cin, address);
+	if (address == "-1")
+		throw - 1;
+	else
+		return address;
 }
 
 bool ClientHandler::IsValidPhoneNumber(string phoneNumber)

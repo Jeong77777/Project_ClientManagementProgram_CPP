@@ -59,11 +59,6 @@ void ProductHandler::ShowProdMenu() const
 void ProductHandler::AddProdMenu()
 {
 	/*** 상품 등록 메뉴 ***/
-	int id;       // 상품ID
-	int classif;  // 상품종류
-	string name;  // 상품명
-	int stock;    // 재고수량
-	int price;    // 상품가격
 
 	/*** 상품 정보 입력 받고 등록 ***/
 	try {
@@ -71,16 +66,13 @@ void ProductHandler::AddProdMenu()
 		cout << "\t\t\t\t상품 등록" << endl;
 		cout << LINE80 << endl;
 		cout << "나가시려면 -1을 입력하세요.\n" << endl;
-		cout << "상품ID를 입력하세요: ";
-		id = MakeProdId();
-		classif = GetProdClasif();
-		cout << "상품명을 입력하세요: ";	cin >> name;
-		if (name == "-1") throw - 1;
-		cout << "재고수량을 입력하세요: ";
-		stock = GetInt::GetInteger(-1, INT_MAX);
-		cout << "가격을 입력하세요: ";
-		price = GetInt::GetInteger(-1, INT_MAX);
-		if (price == -1) throw - 1;
+
+		int id = GetProdId();
+		int classif = GetProdClasif();
+		string name = GetName();
+		int stock = GetStock();
+		int price = GetPrice();		
+
 		Product* newProduct = new Product(id, classif, name, stock, price);
 		productList.insert({ id, newProduct });
 		cout << "\n상품 등록 완료!\n" << endl;
@@ -237,30 +229,19 @@ void ProductHandler::ModifyProdMenu(Product* product)
 		if (sel == 1 || sel == 2 || sel == 3 || sel == 4) {
 			cout << "나가시려면 -1을 입력하세요." << endl;
 			if (sel == 1) {
-				int classif;
-				classif = GetProdClasif();
-				if (classif == -1) throw - 1;
+				int classif = GetProdClasif();
 				product->SetProdClassif(classif);
 			}
 			else if (sel == 2) {
-				string name;
-				cout << "상품명을 입력하세요: ";
-				cin >> name;
-				if (name == "-1") throw - 1;
+				string name = GetName();
 				product->SetProdName(name);
 			}
 			else if (sel == 3) {
-				int stock;
-				cout << "재고수량을 입력하세요: ";
-				stock = GetInt::GetInteger(-1, INT_MAX);
-				if (stock == -1) throw - 1;
+				int stock = GetStock();
 				product->SetProdStock(stock);
 			}
 			else if (sel == 4) {
-				int price;
-				cout << "가격을 입력하세요: ";
-				price = GetInt::GetInteger(-1, INT_MAX);
-				if (price == -1) throw - 1;
+				int price = GetPrice();
 				product->SetProdPrice(price);
 			}
 		}		
@@ -432,9 +413,10 @@ void ProductHandler::ShowAllProdInfoMenu()
 	SelectInSearchMenu(allProducts);
 }
 
-int ProductHandler::MakeProdId()
+int ProductHandler::GetProdId()
 {
-	/*** 상품ID 중복 검사 ***/
+	/*** 상품ID 입력 받기 ***/
+	cout << "상품ID를 입력하세요: ";
 	int id;
 	while (1) {
 		id = GetInt::GetInteger();
@@ -450,6 +432,37 @@ int ProductHandler::MakeProdId()
 			break;
 	}
 	return id;
+}
+
+string ProductHandler::GetName()
+{
+	string name;
+	cout << "상품명을 입력하세요: ";
+	cin.ignore();	getline(cin, name);
+	if (name == "-1")
+		throw - 1;
+	else
+		return name;
+}
+
+int ProductHandler::GetStock()
+{	
+	cout << "재고수량을 입력하세요: ";
+	int stock = GetInt::GetInteger(-1, INT_MAX);
+	if (stock == -1)
+		throw - 1;
+	else
+		return stock;
+}
+
+int ProductHandler::GetPrice()
+{
+	cout << "가격을 입력하세요: ";
+	int price = GetInt::GetInteger(-1, INT_MAX);
+	if (price == -1)
+		throw - 1;
+	else
+		return price;
 }
 
 vector<string> ProductHandler::parseCSV(istream& file, char delimiter)

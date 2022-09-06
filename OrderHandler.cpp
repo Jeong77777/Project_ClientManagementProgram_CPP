@@ -71,6 +71,7 @@ void OrderHandler::AddOrderMenu()
 		cout << "\t\t\t\t주문 내역 등록" << endl;
 		cout << LINE80 << endl;
 		cout << "나가시려면 -1을 입력하세요.\n" << endl;
+
 		date = GetDateString();
 		cltID = GetCltID();
 		prodID = GetProdID();
@@ -360,7 +361,6 @@ void OrderHandler::ChangeProdID(Order* order)
 	int oldProdNum = order->GetOrderProdNum();
 	Product* oldProduct = prodManager.SearchProdUsingId(oldProdID);
 	int newProdID = GetProdID();
-	if (newProdID == -1) throw - 1;
 	int newProdNum = GetProdNum(newProdID);
 	order->SetOrderProdID(newProdID);
 	order->SetOrderProdNum(newProdNum);

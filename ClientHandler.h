@@ -30,6 +30,8 @@ public:
 
 	int MakeClientId();
 	string GetPhoneNumber();
+	string GetName();
+	string GetAddress();
 	bool IsValidPhoneNumber(string);
 	vector<string> parseCSV(istream&, char);	
 
