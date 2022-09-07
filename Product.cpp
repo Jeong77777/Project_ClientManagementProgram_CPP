@@ -18,7 +18,7 @@ string Product::GetProdName() const
     return prodName;
 }
 
-void Product::SetProdName(string& name)
+void Product::SetProdName(string name)
 {
     prodName = name;
 }
@@ -28,7 +28,7 @@ int Product::GetProdPrice() const
     return prodPrice;
 }
 
-void Product::SetProdPrice(int& price)
+void Product::SetProdPrice(int price)
 {
     prodPrice = price;
 }
@@ -38,7 +38,7 @@ int Product::GetProdClassif() const
     return prodClassif;
 }
 
-void Product::SetProdClassif(int& classif)
+void Product::SetProdClassif(int classif)
 {
     prodClassif = classif;
 }

@@ -2,10 +2,19 @@
 #include "Line.h"
 #include "GetInteger.h"
 
-GenericHandler::GenericHandler(): cltManager(), prodManager(), orderManager(cltManager, prodManager)
+
+/**
+* @brief orderHandler 객체가 고객 정보, 상품 정보를 쓰기 위해서
+*	 초기화 하는데 ClientHandler, ProductHandler 객체가 쓰이고 있다.
+*/
+GenericHandler::GenericHandler(): cltHandler(), prodHandler(), orderHandler(cltHandler, prodHandler)
 {
 }
 
+
+/**
+* @brief 메인 메뉴 출력
+*/
 void GenericHandler::ShowGenMenu() const
 {
 	cout << LINE80 << endl;
@@ -18,21 +27,25 @@ void GenericHandler::ShowGenMenu() const
 	cout << LINE80 << endl;
 }
 
+
+/**
+* @brief 고객 정보 관리 메뉴
+*/
 void GenericHandler::CltMenu()
 {
 	while (1) {
 		int sel;
-		cltManager.ShowClientMenu();
+		cltHandler.ShowClientMenu();
 		cout << "메뉴를 선택하세요: ";
 		sel = GetInt::GetInteger(1, 3);
 
 		if (sel == 1) {	// 신규고객등록
 			system("cls");
-			cltManager.AddClientMenu();
+			cltHandler.AddClientMenu();
 		}
 		else if (sel == 2) {	// 정보조회삭제변경
 			system("cls");
-			cltManager.SearchClientMenu();
+			cltHandler.SearchClientMenu();
 		}
 		else {				// 처음으로
 			system("cls");
@@ -41,21 +54,25 @@ void GenericHandler::CltMenu()
 	}
 }
 
+
+/**
+* @brief 상품 정보 관리 메뉴
+*/
 void GenericHandler::ProdMenu()
 {
 	while (1) {
 		int sel;
-		prodManager.ShowProdMenu();
+		prodHandler.ShowProdMenu();
 		cout << "메뉴를 선택하세요: ";
 		sel = GetInt::GetInteger(1, 3);
 
 		if (sel == 1) {	// 상품등록
 			system("cls");
-			prodManager.AddProdMenu();
+			prodHandler.AddProdMenu();
 		}
 		else if (sel == 2) {	// 정보조회삭제변경
 			system("cls");
-			prodManager.SearchProdMenu();
+			prodHandler.SearchProdMenu();
 		}
 		else {			// 처음으로
 			system("cls");
@@ -64,21 +81,25 @@ void GenericHandler::ProdMenu()
 	}
 }
 
+
+/**
+* @brief 주문 내역 관리 메뉴
+*/
 void GenericHandler::OrderMenu()
 {
 	while (1) {
 		int sel;
-		orderManager.ShowOrderMenu();
+		orderHandler.ShowOrderMenu();
 		cout << "메뉴를 선택하세요: ";
 		sel = GetInt::GetInteger(1, 3);
 
 		if (sel == 1) {	// 주문내역등록
 			system("cls");
-			orderManager.AddOrderMenu();
+			orderHandler.AddOrderMenu();
 		}
 		else if (sel == 2) {	// 정보조회삭제변경
 			system("cls");
-			orderManager.SearchOrderMenu();
+			orderHandler.SearchOrderMenu();
 		}
 		else {			// 처음으로
 			system("cls");

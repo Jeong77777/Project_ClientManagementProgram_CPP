@@ -6,6 +6,10 @@
 #include "OrderHandler.h"
 #include <iostream>
 
+
+/**
+* @brief 총괄 클래스
+*/
 class GenericHandler
 {
 public:
@@ -16,10 +20,9 @@ public:
 	void OrderMenu();
 
 private:
-	ClientHandler cltManager;
-	ProductHandler prodManager;
-	OrderHandler orderManager;
+	ClientHandler cltHandler; // 고객 정보 관리
+	ProductHandler prodHandler; // 상품 정보 관리
+	OrderHandler orderHandler; // 주문 내역 관리
 };
-
 
 #endif // __GENERIC_HANDLER_H__

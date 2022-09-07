@@ -5,7 +5,9 @@
 #include <map>
 #include <vector>
 
-
+/**
+* @brief 고객 정보를 관리하는 클래스
+*/
 class ClientHandler
 {
 public:
@@ -17,26 +19,27 @@ public:
 	void SearchClientMenu();
 	void SearchCltUsingIdMenu();
 	void SearchCltUsingNameMenu();
-	void ModifyClientMenu(Client*);
+	void ShowAllCltInfoMenu();
 	void SelectInSearchMenu(vector<Client*>&);
 	void ClientDeleteModifyMenu(Client*);
-	void ShowAllCltInfoMenu();
+	void ModifyClientMenu(Client*);	
 
-	void DeleteCltUsingPtr(Client*);
-	Client* SearchCltUsingId(int id) const;
+	Client* SearchCltUsingId(int) const;
 	vector<Client*> SearchCltUsingName(string) const;
 	void ShowSearchResult(Client*) const;
 	void ShowSearchResults(vector<Client*>&) const;
+	void DeleteCltUsingPtr(Client*);
 
 	int MakeClientId();
-	string GetPhoneNumber();
-	string GetName();
-	string GetAddress();
-	bool IsValidPhoneNumber(string);
-	vector<string> parseCSV(istream&, char);	
+	string GetCltPhoneNum();
+	string GetCltName();
+	string GetCltAddress();
+	bool IsValidPhoneNum(string);
+
+	vector<string> parseCSV(istream&, char);
 
 private:
-	map<int, Client*> clientList;
+	map<int, Client*> clientList; // 고객 정보 리스트
 
 };
 

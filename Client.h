@@ -4,21 +4,24 @@
 #include <string>
 using namespace std;
 
+/**
+* @brief 고객 정보를 저장하는 클래스
+*/
 class Client
 {
 public:
 	Client(int = 0, string = "", string = "", string = "");
 
-	int getCltID() const;
+	int GetCltID() const;
 
 	string GetCltName() const;
-	void SetCltName(string&);
+	void SetCltName(string);
 
 	string GetCltPhoneNumber() const;
-	void SetCltPhoneNumber(string&);
+	void SetCltPhoneNumber(string);
 
 	string GetCltAddress() const;
-	void SetCltAddress(string&);
+	void SetCltAddress(string);
 
 	void ShowCltInfo() const;
 

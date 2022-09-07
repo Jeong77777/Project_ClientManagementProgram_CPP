@@ -16,7 +16,7 @@ string Order::GetOrderDate() const
 	return orderDate;
 }
 
-void Order::SetOrderDate(string& date)
+void Order::SetOrderDate(string date)
 {
 	orderDate = date;
 }
@@ -26,7 +26,7 @@ int Order::GetOrderCltID() const
 	return orderCltID;
 }
 
-void Order::SetOrderCltID(int& cltID)
+void Order::SetOrderCltID(int cltID)
 {
 	orderCltID = cltID;
 }
@@ -36,7 +36,7 @@ int Order::GetOrderProdID() const
 	return orderProdID;
 }
 
-void Order::SetOrderProdID(int& prodID)
+void Order::SetOrderProdID(int prodID)
 {
 	orderProdID = prodID;
 }
@@ -46,7 +46,7 @@ int Order::GetOrderProdNum() const
 	return orderProdNum;
 }
 
-void Order::SetOrderProdNum(int& prodNum)
+void Order::SetOrderProdNum(int prodNum)
 {
 	orderProdNum = prodNum;
 }
